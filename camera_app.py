@@ -125,7 +125,7 @@ class MockCamera:
             CAPTURE_SETTINGS['is_scheduled'] = False
             CAPTURE_SETTINGS['interval'] = 0
             return
-
+        
         CAPTURE_SETTINGS['interval'] = interval_minutes
         CAPTURE_SETTINGS['is_scheduled'] = True
         logger.info(f"Starting scheduled capture every {interval_minutes} minutes")
@@ -357,6 +357,12 @@ def index():
     """Render the main page."""
     return render_template('index.html')
 
+@app.route('/live')
+def live_feed():
+    """Render the live feed page."""
+    logger.info("Accessing live feed page")
+    return render_template('live.html')
+
 @app.route('/capture')
 def capture_image():
     """Capture an image and return it."""
@@ -364,6 +370,7 @@ def capture_image():
         return jsonify({'status': 'error', 'message': 'Camera not initialized'}), 500
 
     try:
+        logger.info("Attempting to capture image")
         # Capture to temporary location first
         temp_path = UPLOAD_FOLDER / f"temp_{time.time()}.jpg"
         camera.capture_file(str(temp_path))
@@ -374,7 +381,8 @@ def capture_image():
         # Clean up temp file
         temp_path.unlink()
 
-        logger.info(f"Image captured and stored at: {final_path}")
+        logger.info(f"Successfully captured image to {final_path}")
+        logger.info("Image captured successfully")
         return send_file(str(final_path), mimetype='image/jpeg')
     except Exception as e:
         logger.error(f"Error capturing image: {e}")
@@ -435,11 +443,6 @@ def rotate_camera():
     except Exception as e:
         logger.error(f"Error rotating camera: {e}")
         return jsonify({'status': 'error', 'message': str(e)}), 500
-
-@app.route('/live')
-def live_feed():
-    """Render the live feed page."""
-    return render_template('live.html')
 
 # Add new endpoint for scheduled capture settings
 @app.route('/schedule', methods=['POST'])

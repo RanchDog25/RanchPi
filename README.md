@@ -121,33 +121,55 @@ A basic sample project is included in the `sample_project` directory to test the
    python3 sample_project/main.py
    ```
 
-### 3. Setup on Raspberry Pi
+## Pi Setup Instructions (Updated February 1, 2025)
 
-1. Install Git on your Raspberry Pi:
-   ```bash
-   sudo apt update
-   sudo apt install git
-   ```
+### Install Required Packages
 
-2. Generate SSH key on Pi (if not already done):
-   ```bash
-   ssh-keygen -t ed25519 -C "administration@evergold.tech"
-   ```
+Run these commands on your Raspberry Pi:
 
-3. Add the SSH key to GitHub:
-   - Display your public key: `cat ~/.ssh/id_ed25519.pub`
-   - Add this key to GitHub (Settings → SSH and GPG keys)
+```bash
+# Activate your virtual environment
+source venv/bin/activate
 
-4. Clone the repository using SSH on Pi:
-   ```bash
-   git clone git@github.com:RanchDog25/RanchPi.git
-   ```
+# Install required Python packages
+pip3 install schedule netifaces websockets flask-cors pillow
 
-5. Pull latest changes when needed:
-   ```bash
-   python3 git_utils.py pull
-   ```
+# For camera support (if not already installed)
+sudo apt update
+sudo apt install -y python3-picamera2 python3-libcamera
+```
 
+### Running the Application
+
+1. Pull the latest code:
+```bash
+git pull origin main
+```
+
+2. Run the application:
+```bash
+python3 camera_app.py
+```
+
+The application will:
+- Automatically detect available networks (Ethernet → WiFi → Cellular)
+- Connect to the best available network
+- Establish WebSocket connection with the server
+- Start the camera interface
+
+### Network Priority
+
+The system automatically prioritizes network connections in this order:
+1. Ethernet (eth0)
+2. WiFi (wlan0)
+3. Cellular/LTE (ppp0)
+
+### Troubleshooting
+
+If you see "Module not found" errors, ensure all required packages are installed:
+```bash
+pip3 install -r requirements.txt
+```
 ## Authentication Methods
 
 This project uses two different authentication methods:
@@ -177,50 +199,3 @@ This project uses two different authentication methods:
 ## Project Purpose
 Raspberry Pi dev for Ranch Cams
 Travis and Jackson 2/1/25, making Ranching Intelligence history
-
-## Camera Application Setup
-
-### 1. Development Environment (Replit)
-The camera application runs in development mode on Replit, simulating camera captures with test images. To test:
-
-```bash
-python camera_app.py
-```
-
-### 2. Raspberry Pi Setup
-
-1. Ensure your camera module is properly connected to the Pi
-
-2. Install required packages:
-   ```bash
-   sudo apt update
-   sudo apt install -y python3-picamera2 python3-libcamera
-   pip3 install flask pillow
-   ```
-
-3. Clone the repository (if not already done):
-   ```bash
-   git clone git@github.com:RanchDog25/RanchPi.git
-   cd RanchPi
-   ```
-
-4. Run the camera application:
-   ```bash
-   python3 camera_app.py
-   ```
-
-### 3. Automatic Image Capture and Sync
-
-To automatically capture images and sync them to GitHub:
-
-1. On your Raspberry Pi, run:
-   ```bash
-   python3 pi_camera_sync.py
-   ```
-
-This will:
-- Capture an image using the Pi camera
-- Save it with a timestamp
-- Automatically push it to the GitHub repository
-
-Images are stored in the `captured_images` directory and automatically synced to GitHub.

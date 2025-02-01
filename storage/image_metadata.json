@@ -813,5 +813,770 @@
     "timestamp": "2025-02-01T23:46:44.598426",
     "type": "manual",
     "size": 9242
+  },
+  "storage/images/2025_02/capture_20250201_234914.jpg": {
+    "timestamp": "2025-02-01T23:49:14.998306",
+    "type": "manual",
+    "size": 9250
+  },
+  "storage/images/2025_02/capture_20250201_234917.jpg": {
+    "timestamp": "2025-02-01T23:49:17.466880",
+    "type": "manual",
+    "size": 9865
+  },
+  "storage/images/2025_02/capture_20250201_234918.jpg": {
+    "timestamp": "2025-02-01T23:49:18.477005",
+    "type": "manual",
+    "size": 9910
+  },
+  "storage/images/2025_02/capture_20250201_234920.jpg": {
+    "timestamp": "2025-02-01T23:49:20.238754",
+    "type": "manual",
+    "size": 9915
+  },
+  "storage/images/2025_02/capture_20250201_234921.jpg": {
+    "timestamp": "2025-02-01T23:49:21.238455",
+    "type": "manual",
+    "size": 9858
+  },
+  "storage/images/2025_02/capture_20250201_234922.jpg": {
+    "timestamp": "2025-02-01T23:49:22.232977",
+    "type": "manual",
+    "size": 9903
+  },
+  "storage/images/2025_02/capture_20250201_234923.jpg": {
+    "timestamp": "2025-02-01T23:49:23.234745",
+    "type": "manual",
+    "size": 9916
+  },
+  "storage/images/2025_02/capture_20250201_234924.jpg": {
+    "timestamp": "2025-02-01T23:49:24.239814",
+    "type": "manual",
+    "size": 9923
+  },
+  "storage/images/2025_02/capture_20250201_234925.jpg": {
+    "timestamp": "2025-02-01T23:49:25.242125",
+    "type": "manual",
+    "size": 9893
+  },
+  "storage/images/2025_02/capture_20250201_234926.jpg": {
+    "timestamp": "2025-02-01T23:49:26.247082",
+    "type": "manual",
+    "size": 9909
+  },
+  "storage/images/2025_02/capture_20250201_234927.jpg": {
+    "timestamp": "2025-02-01T23:49:27.234754",
+    "type": "manual",
+    "size": 9874
+  },
+  "storage/images/2025_02/capture_20250201_234928.jpg": {
+    "timestamp": "2025-02-01T23:49:28.244059",
+    "type": "manual",
+    "size": 9914
+  },
+  "storage/images/2025_02/capture_20250201_234929.jpg": {
+    "timestamp": "2025-02-01T23:49:29.244157",
+    "type": "manual",
+    "size": 9903
+  },
+  "storage/images/2025_02/capture_20250201_234930.jpg": {
+    "timestamp": "2025-02-01T23:49:30.246227",
+    "type": "manual",
+    "size": 9903
+  },
+  "storage/images/2025_02/capture_20250201_234931.jpg": {
+    "timestamp": "2025-02-01T23:49:31.241061",
+    "type": "manual",
+    "size": 9852
+  },
+  "storage/images/2025_02/capture_20250201_234932.jpg": {
+    "timestamp": "2025-02-01T23:49:32.247156",
+    "type": "manual",
+    "size": 9894
+  },
+  "storage/images/2025_02/capture_20250201_234933.jpg": {
+    "timestamp": "2025-02-01T23:49:33.623631",
+    "type": "manual",
+    "size": 9908
+  },
+  "storage/images/2025_02/capture_20250201_234934.jpg": {
+    "timestamp": "2025-02-01T23:49:34.468981",
+    "type": "manual",
+    "size": 9915
+  },
+  "storage/images/2025_02/capture_20250201_234935.jpg": {
+    "timestamp": "2025-02-01T23:49:35.472639",
+    "type": "manual",
+    "size": 9887
+  },
+  "storage/images/2025_02/capture_20250201_234936.jpg": {
+    "timestamp": "2025-02-01T23:49:36.464906",
+    "type": "manual",
+    "size": 9893
+  },
+  "storage/images/2025_02/capture_20250201_234937.jpg": {
+    "timestamp": "2025-02-01T23:49:37.475984",
+    "type": "manual",
+    "size": 9870
+  },
+  "storage/images/2025_02/capture_20250201_234938.jpg": {
+    "timestamp": "2025-02-01T23:49:38.483007",
+    "type": "manual",
+    "size": 9902
+  },
+  "storage/images/2025_02/capture_20250201_234939.jpg": {
+    "timestamp": "2025-02-01T23:49:39.482863",
+    "type": "manual",
+    "size": 9902
+  },
+  "storage/images/2025_02/capture_20250201_234940.jpg": {
+    "timestamp": "2025-02-01T23:49:40.473424",
+    "type": "manual",
+    "size": 9906
+  },
+  "storage/images/2025_02/capture_20250201_234941.jpg": {
+    "timestamp": "2025-02-01T23:49:41.468557",
+    "type": "manual",
+    "size": 9848
+  },
+  "storage/images/2025_02/capture_20250201_234942.jpg": {
+    "timestamp": "2025-02-01T23:49:42.459782",
+    "type": "manual",
+    "size": 9905
+  },
+  "storage/images/2025_02/capture_20250201_234943.jpg": {
+    "timestamp": "2025-02-01T23:49:43.477241",
+    "type": "manual",
+    "size": 9916
+  },
+  "storage/images/2025_02/capture_20250201_234944.jpg": {
+    "timestamp": "2025-02-01T23:49:44.472752",
+    "type": "manual",
+    "size": 9918
+  },
+  "storage/images/2025_02/capture_20250201_234945.jpg": {
+    "timestamp": "2025-02-01T23:49:45.489281",
+    "type": "manual",
+    "size": 9891
+  },
+  "storage/images/2025_02/capture_20250201_234946.jpg": {
+    "timestamp": "2025-02-01T23:49:46.467278",
+    "type": "manual",
+    "size": 9911
+  },
+  "storage/images/2025_02/capture_20250201_234947.jpg": {
+    "timestamp": "2025-02-01T23:49:47.462823",
+    "type": "manual",
+    "size": 9878
+  },
+  "storage/images/2025_02/capture_20250201_234948.jpg": {
+    "timestamp": "2025-02-01T23:49:48.467313",
+    "type": "manual",
+    "size": 9914
+  },
+  "storage/images/2025_02/capture_20250201_234949.jpg": {
+    "timestamp": "2025-02-01T23:49:49.470193",
+    "type": "manual",
+    "size": 9904
+  },
+  "storage/images/2025_02/capture_20250201_234950.jpg": {
+    "timestamp": "2025-02-01T23:49:50.462293",
+    "type": "manual",
+    "size": 9897
+  },
+  "storage/images/2025_02/capture_20250201_234951.jpg": {
+    "timestamp": "2025-02-01T23:49:51.457777",
+    "type": "manual",
+    "size": 9854
+  },
+  "storage/images/2025_02/capture_20250201_234952.jpg": {
+    "timestamp": "2025-02-01T23:49:52.471468",
+    "type": "manual",
+    "size": 9893
+  },
+  "storage/images/2025_02/capture_20250201_234953.jpg": {
+    "timestamp": "2025-02-01T23:49:53.473075",
+    "type": "manual",
+    "size": 9898
+  },
+  "storage/images/2025_02/capture_20250201_234954.jpg": {
+    "timestamp": "2025-02-01T23:49:54.471683",
+    "type": "manual",
+    "size": 9905
+  },
+  "storage/images/2025_02/capture_20250201_234955.jpg": {
+    "timestamp": "2025-02-01T23:49:55.465200",
+    "type": "manual",
+    "size": 9878
+  },
+  "storage/images/2025_02/capture_20250201_234956.jpg": {
+    "timestamp": "2025-02-01T23:49:56.461808",
+    "type": "manual",
+    "size": 9896
+  },
+  "storage/images/2025_02/capture_20250201_234957.jpg": {
+    "timestamp": "2025-02-01T23:49:57.455555",
+    "type": "manual",
+    "size": 9864
+  },
+  "storage/images/2025_02/capture_20250201_234958.jpg": {
+    "timestamp": "2025-02-01T23:49:58.457073",
+    "type": "manual",
+    "size": 9899
+  },
+  "storage/images/2025_02/capture_20250201_234959.jpg": {
+    "timestamp": "2025-02-01T23:49:59.464364",
+    "type": "manual",
+    "size": 9898
+  },
+  "storage/images/2025_02/capture_20250201_235000.jpg": {
+    "timestamp": "2025-02-01T23:50:00.468435",
+    "type": "manual",
+    "size": 9889
+  },
+  "storage/images/2025_02/capture_20250201_235001.jpg": {
+    "timestamp": "2025-02-01T23:50:01.470226",
+    "type": "manual",
+    "size": 9847
+  },
+  "storage/images/2025_02/capture_20250201_235002.jpg": {
+    "timestamp": "2025-02-01T23:50:02.469704",
+    "type": "manual",
+    "size": 9889
+  },
+  "storage/images/2025_02/capture_20250201_235003.jpg": {
+    "timestamp": "2025-02-01T23:50:03.471147",
+    "type": "manual",
+    "size": 9898
+  },
+  "storage/images/2025_02/capture_20250201_235004.jpg": {
+    "timestamp": "2025-02-01T23:50:04.474744",
+    "type": "manual",
+    "size": 9906
+  },
+  "storage/images/2025_02/capture_20250201_235005.jpg": {
+    "timestamp": "2025-02-01T23:50:05.458010",
+    "type": "manual",
+    "size": 9886
+  },
+  "storage/images/2025_02/capture_20250201_235006.jpg": {
+    "timestamp": "2025-02-01T23:50:06.474111",
+    "type": "manual",
+    "size": 9894
+  },
+  "storage/images/2025_02/capture_20250201_235007.jpg": {
+    "timestamp": "2025-02-01T23:50:07.460604",
+    "type": "manual",
+    "size": 9858
+  },
+  "storage/images/2025_02/capture_20250201_235008.jpg": {
+    "timestamp": "2025-02-01T23:50:08.472458",
+    "type": "manual",
+    "size": 9901
+  },
+  "storage/images/2025_02/capture_20250201_235009.jpg": {
+    "timestamp": "2025-02-01T23:50:09.467270",
+    "type": "manual",
+    "size": 9895
+  },
+  "storage/images/2025_02/capture_20250201_235010.jpg": {
+    "timestamp": "2025-02-01T23:50:10.473980",
+    "type": "manual",
+    "size": 9899
+  },
+  "storage/images/2025_02/capture_20250201_235011.jpg": {
+    "timestamp": "2025-02-01T23:50:11.475004",
+    "type": "manual",
+    "size": 9841
+  },
+  "storage/images/2025_02/capture_20250201_235012.jpg": {
+    "timestamp": "2025-02-01T23:50:12.464579",
+    "type": "manual",
+    "size": 9903
+  },
+  "storage/images/2025_02/capture_20250201_235013.jpg": {
+    "timestamp": "2025-02-01T23:50:13.460781",
+    "type": "manual",
+    "size": 9905
+  },
+  "storage/images/2025_02/capture_20250201_235014.jpg": {
+    "timestamp": "2025-02-01T23:50:14.462651",
+    "type": "manual",
+    "size": 9917
+  },
+  "storage/images/2025_02/capture_20250201_235015.jpg": {
+    "timestamp": "2025-02-01T23:50:15.487002",
+    "type": "manual",
+    "size": 9889
+  },
+  "storage/images/2025_02/capture_20250201_235016.jpg": {
+    "timestamp": "2025-02-01T23:50:16.457387",
+    "type": "manual",
+    "size": 9899
+  },
+  "storage/images/2025_02/capture_20250201_235017.jpg": {
+    "timestamp": "2025-02-01T23:50:17.477332",
+    "type": "manual",
+    "size": 9864
+  },
+  "storage/images/2025_02/capture_20250201_235018.jpg": {
+    "timestamp": "2025-02-01T23:50:18.465993",
+    "type": "manual",
+    "size": 9907
+  },
+  "storage/images/2025_02/capture_20250201_235019.jpg": {
+    "timestamp": "2025-02-01T23:50:19.468813",
+    "type": "manual",
+    "size": 9896
+  },
+  "storage/images/2025_02/capture_20250201_235020.jpg": {
+    "timestamp": "2025-02-01T23:50:20.468051",
+    "type": "manual",
+    "size": 9903
+  },
+  "storage/images/2025_02/capture_20250201_235021.jpg": {
+    "timestamp": "2025-02-01T23:50:21.459838",
+    "type": "manual",
+    "size": 9851
+  },
+  "storage/images/2025_02/capture_20250201_235022.jpg": {
+    "timestamp": "2025-02-01T23:50:22.476234",
+    "type": "manual",
+    "size": 9896
+  },
+  "storage/images/2025_02/capture_20250201_235023.jpg": {
+    "timestamp": "2025-02-01T23:50:23.456309",
+    "type": "manual",
+    "size": 9909
+  },
+  "storage/images/2025_02/capture_20250201_235024.jpg": {
+    "timestamp": "2025-02-01T23:50:24.456071",
+    "type": "manual",
+    "size": 9913
+  },
+  "storage/images/2025_02/capture_20250201_235025.jpg": {
+    "timestamp": "2025-02-01T23:50:25.464145",
+    "type": "manual",
+    "size": 9886
+  },
+  "storage/images/2025_02/capture_20250201_235026.jpg": {
+    "timestamp": "2025-02-01T23:50:26.464804",
+    "type": "manual",
+    "size": 9902
+  },
+  "storage/images/2025_02/capture_20250201_235027.jpg": {
+    "timestamp": "2025-02-01T23:50:27.458752",
+    "type": "manual",
+    "size": 9867
+  },
+  "storage/images/2025_02/capture_20250201_235028.jpg": {
+    "timestamp": "2025-02-01T23:50:28.466218",
+    "type": "manual",
+    "size": 9907
+  },
+  "storage/images/2025_02/capture_20250201_235029.jpg": {
+    "timestamp": "2025-02-01T23:50:29.460499",
+    "type": "manual",
+    "size": 9896
+  },
+  "storage/images/2025_02/capture_20250201_235030.jpg": {
+    "timestamp": "2025-02-01T23:50:30.462192",
+    "type": "manual",
+    "size": 9894
+  },
+  "storage/images/2025_02/capture_20250201_235031.jpg": {
+    "timestamp": "2025-02-01T23:50:31.457247",
+    "type": "manual",
+    "size": 9843
+  },
+  "storage/images/2025_02/capture_20250201_235032.jpg": {
+    "timestamp": "2025-02-01T23:50:32.463732",
+    "type": "manual",
+    "size": 9886
+  },
+  "storage/images/2025_02/capture_20250201_235033.jpg": {
+    "timestamp": "2025-02-01T23:50:33.472579",
+    "type": "manual",
+    "size": 9895
+  },
+  "storage/images/2025_02/capture_20250201_235034.jpg": {
+    "timestamp": "2025-02-01T23:50:34.470101",
+    "type": "manual",
+    "size": 9904
+  },
+  "storage/images/2025_02/capture_20250201_235035.jpg": {
+    "timestamp": "2025-02-01T23:50:35.464547",
+    "type": "manual",
+    "size": 9880
+  },
+  "storage/images/2025_02/capture_20250201_235036.jpg": {
+    "timestamp": "2025-02-01T23:50:36.463732",
+    "type": "manual",
+    "size": 9885
+  },
+  "storage/images/2025_02/capture_20250201_235037.jpg": {
+    "timestamp": "2025-02-01T23:50:37.458287",
+    "type": "manual",
+    "size": 9861
+  },
+  "storage/images/2025_02/capture_20250201_235038.jpg": {
+    "timestamp": "2025-02-01T23:50:38.465407",
+    "type": "manual",
+    "size": 9894
+  },
+  "storage/images/2025_02/capture_20250201_235039.jpg": {
+    "timestamp": "2025-02-01T23:50:39.467452",
+    "type": "manual",
+    "size": 9891
+  },
+  "storage/images/2025_02/capture_20250201_235040.jpg": {
+    "timestamp": "2025-02-01T23:50:40.455331",
+    "type": "manual",
+    "size": 9899
+  },
+  "storage/images/2025_02/capture_20250201_235041.jpg": {
+    "timestamp": "2025-02-01T23:50:41.455505",
+    "type": "manual",
+    "size": 9841
+  },
+  "storage/images/2025_02/capture_20250201_235042.jpg": {
+    "timestamp": "2025-02-01T23:50:42.465452",
+    "type": "manual",
+    "size": 9900
+  },
+  "storage/images/2025_02/capture_20250201_235043.jpg": {
+    "timestamp": "2025-02-01T23:50:43.471242",
+    "type": "manual",
+    "size": 9909
+  },
+  "storage/images/2025_02/capture_20250201_235044.jpg": {
+    "timestamp": "2025-02-01T23:50:44.475634",
+    "type": "manual",
+    "size": 9911
+  },
+  "storage/images/2025_02/capture_20250201_235045.jpg": {
+    "timestamp": "2025-02-01T23:50:45.462895",
+    "type": "manual",
+    "size": 9886
+  },
+  "storage/images/2025_02/capture_20250201_235046.jpg": {
+    "timestamp": "2025-02-01T23:50:46.458376",
+    "type": "manual",
+    "size": 9904
+  },
+  "storage/images/2025_02/capture_20250201_235047.jpg": {
+    "timestamp": "2025-02-01T23:50:47.467505",
+    "type": "manual",
+    "size": 9874
+  },
+  "storage/images/2025_02/capture_20250201_235048.jpg": {
+    "timestamp": "2025-02-01T23:50:48.461765",
+    "type": "manual",
+    "size": 9907
+  },
+  "storage/images/2025_02/capture_20250201_235049.jpg": {
+    "timestamp": "2025-02-01T23:50:49.466064",
+    "type": "manual",
+    "size": 9896
+  },
+  "storage/images/2025_02/capture_20250201_235050.jpg": {
+    "timestamp": "2025-02-01T23:50:50.469348",
+    "type": "manual",
+    "size": 9892
+  },
+  "storage/images/2025_02/capture_20250201_235051.jpg": {
+    "timestamp": "2025-02-01T23:50:51.468520",
+    "type": "manual",
+    "size": 9848
+  },
+  "storage/images/2025_02/capture_20250201_235052.jpg": {
+    "timestamp": "2025-02-01T23:50:52.468082",
+    "type": "manual",
+    "size": 9888
+  },
+  "storage/images/2025_02/capture_20250201_235053.jpg": {
+    "timestamp": "2025-02-01T23:50:53.461477",
+    "type": "manual",
+    "size": 9891
+  },
+  "storage/images/2025_02/capture_20250201_235054.jpg": {
+    "timestamp": "2025-02-01T23:50:54.455096",
+    "type": "manual",
+    "size": 9900
+  },
+  "storage/images/2025_02/capture_20250201_235055.jpg": {
+    "timestamp": "2025-02-01T23:50:55.468145",
+    "type": "manual",
+    "size": 9872
+  },
+  "storage/images/2025_02/capture_20250201_235056.jpg": {
+    "timestamp": "2025-02-01T23:50:56.469925",
+    "type": "manual",
+    "size": 9890
+  },
+  "storage/images/2025_02/capture_20250201_235057.jpg": {
+    "timestamp": "2025-02-01T23:50:57.455446",
+    "type": "manual",
+    "size": 9858
+  },
+  "storage/images/2025_02/capture_20250201_235058.jpg": {
+    "timestamp": "2025-02-01T23:50:58.467594",
+    "type": "manual",
+    "size": 9894
+  },
+  "storage/images/2025_02/capture_20250201_235059.jpg": {
+    "timestamp": "2025-02-01T23:50:59.462363",
+    "type": "manual",
+    "size": 9896
+  },
+  "storage/images/2025_02/capture_20250201_235100.jpg": {
+    "timestamp": "2025-02-01T23:51:00.463602",
+    "type": "manual",
+    "size": 9891
+  },
+  "storage/images/2025_02/capture_20250201_235101.jpg": {
+    "timestamp": "2025-02-01T23:51:01.456701",
+    "type": "manual",
+    "size": 9848
+  },
+  "storage/images/2025_02/capture_20250201_235102.jpg": {
+    "timestamp": "2025-02-01T23:51:02.464708",
+    "type": "manual",
+    "size": 9892
+  },
+  "storage/images/2025_02/capture_20250201_235103.jpg": {
+    "timestamp": "2025-02-01T23:51:03.463874",
+    "type": "manual",
+    "size": 9901
+  },
+  "storage/images/2025_02/capture_20250201_235104.jpg": {
+    "timestamp": "2025-02-01T23:51:04.459850",
+    "type": "manual",
+    "size": 9907
+  },
+  "storage/images/2025_02/capture_20250201_235105.jpg": {
+    "timestamp": "2025-02-01T23:51:05.479498",
+    "type": "manual",
+    "size": 9887
+  },
+  "storage/images/2025_02/capture_20250201_235106.jpg": {
+    "timestamp": "2025-02-01T23:51:06.466149",
+    "type": "manual",
+    "size": 9897
+  },
+  "storage/images/2025_02/capture_20250201_235107.jpg": {
+    "timestamp": "2025-02-01T23:51:07.469701",
+    "type": "manual",
+    "size": 9860
+  },
+  "storage/images/2025_02/capture_20250201_235108.jpg": {
+    "timestamp": "2025-02-01T23:51:08.465169",
+    "type": "manual",
+    "size": 9903
+  },
+  "storage/images/2025_02/capture_20250201_235109.jpg": {
+    "timestamp": "2025-02-01T23:51:09.461609",
+    "type": "manual",
+    "size": 9898
+  },
+  "storage/images/2025_02/capture_20250201_235110.jpg": {
+    "timestamp": "2025-02-01T23:51:10.470909",
+    "type": "manual",
+    "size": 9896
+  },
+  "storage/images/2025_02/capture_20250201_235112.jpg": {
+    "timestamp": "2025-02-01T23:51:12.234991",
+    "type": "manual",
+    "size": 9904
+  },
+  "storage/images/2025_02/capture_20250201_235113.jpg": {
+    "timestamp": "2025-02-01T23:51:13.238481",
+    "type": "manual",
+    "size": 9902
+  },
+  "storage/images/2025_02/capture_20250201_235114.jpg": {
+    "timestamp": "2025-02-01T23:51:14.233311",
+    "type": "manual",
+    "size": 9913
+  },
+  "storage/images/2025_02/capture_20250201_235115.jpg": {
+    "timestamp": "2025-02-01T23:51:15.242641",
+    "type": "manual",
+    "size": 9890
+  },
+  "storage/images/2025_02/capture_20250201_235116.jpg": {
+    "timestamp": "2025-02-01T23:51:16.239032",
+    "type": "manual",
+    "size": 9897
+  },
+  "storage/images/2025_02/capture_20250201_235117.jpg": {
+    "timestamp": "2025-02-01T23:51:17.238322",
+    "type": "manual",
+    "size": 9861
+  },
+  "storage/images/2025_02/capture_20250201_235118.jpg": {
+    "timestamp": "2025-02-01T23:51:18.235118",
+    "type": "manual",
+    "size": 9901
+  },
+  "storage/images/2025_02/capture_20250201_235119.jpg": {
+    "timestamp": "2025-02-01T23:51:19.242556",
+    "type": "manual",
+    "size": 9893
+  },
+  "storage/images/2025_02/capture_20250201_235120.jpg": {
+    "timestamp": "2025-02-01T23:51:20.240418",
+    "type": "manual",
+    "size": 9913
+  },
+  "storage/images/2025_02/capture_20250201_235121.jpg": {
+    "timestamp": "2025-02-01T23:51:21.239477",
+    "type": "manual",
+    "size": 9861
+  },
+  "storage/images/2025_02/capture_20250201_235122.jpg": {
+    "timestamp": "2025-02-01T23:51:22.230890",
+    "type": "manual",
+    "size": 9906
+  },
+  "storage/images/2025_02/capture_20250201_235123.jpg": {
+    "timestamp": "2025-02-01T23:51:23.232728",
+    "type": "manual",
+    "size": 9921
+  },
+  "storage/images/2025_02/capture_20250201_235124.jpg": {
+    "timestamp": "2025-02-01T23:51:24.238707",
+    "type": "manual",
+    "size": 9925
+  },
+  "storage/images/2025_02/capture_20250201_235125.jpg": {
+    "timestamp": "2025-02-01T23:51:25.238808",
+    "type": "manual",
+    "size": 9896
+  },
+  "storage/images/2025_02/capture_20250201_235126.jpg": {
+    "timestamp": "2025-02-01T23:51:26.251358",
+    "type": "manual",
+    "size": 9914
+  },
+  "storage/images/2025_02/capture_20250201_235127.jpg": {
+    "timestamp": "2025-02-01T23:51:27.231118",
+    "type": "manual",
+    "size": 9877
+  },
+  "storage/images/2025_02/capture_20250201_235128.jpg": {
+    "timestamp": "2025-02-01T23:51:28.237096",
+    "type": "manual",
+    "size": 9917
+  },
+  "storage/images/2025_02/capture_20250201_235129.jpg": {
+    "timestamp": "2025-02-01T23:51:29.229522",
+    "type": "manual",
+    "size": 9906
+  },
+  "storage/images/2025_02/capture_20250201_235130.jpg": {
+    "timestamp": "2025-02-01T23:51:30.242100",
+    "type": "manual",
+    "size": 9903
+  },
+  "storage/images/2025_02/capture_20250201_235131.jpg": {
+    "timestamp": "2025-02-01T23:51:31.231632",
+    "type": "manual",
+    "size": 9852
+  },
+  "storage/images/2025_02/capture_20250201_235132.jpg": {
+    "timestamp": "2025-02-01T23:51:32.231607",
+    "type": "manual",
+    "size": 9893
+  },
+  "storage/images/2025_02/capture_20250201_235133.jpg": {
+    "timestamp": "2025-02-01T23:51:33.245036",
+    "type": "manual",
+    "size": 9909
+  },
+  "storage/images/2025_02/capture_20250201_235134.jpg": {
+    "timestamp": "2025-02-01T23:51:34.237933",
+    "type": "manual",
+    "size": 9916
+  },
+  "storage/images/2025_02/capture_20250201_235135.jpg": {
+    "timestamp": "2025-02-01T23:51:35.236592",
+    "type": "manual",
+    "size": 9888
+  },
+  "storage/images/2025_02/capture_20250201_235136.jpg": {
+    "timestamp": "2025-02-01T23:51:36.230144",
+    "type": "manual",
+    "size": 9896
+  },
+  "storage/images/2025_02/capture_20250201_235137.jpg": {
+    "timestamp": "2025-02-01T23:51:37.248378",
+    "type": "manual",
+    "size": 9872
+  },
+  "storage/images/2025_02/capture_20250201_235138.jpg": {
+    "timestamp": "2025-02-01T23:51:38.233678",
+    "type": "manual",
+    "size": 9901
+  },
+  "storage/images/2025_02/capture_20250201_235139.jpg": {
+    "timestamp": "2025-02-01T23:51:39.557652",
+    "type": "manual",
+    "size": 9903
+  },
+  "storage/images/2025_02/capture_20250201_235140.jpg": {
+    "timestamp": "2025-02-01T23:51:40.460187",
+    "type": "manual",
+    "size": 9909
+  },
+  "storage/images/2025_02/capture_20250201_235141.jpg": {
+    "timestamp": "2025-02-01T23:51:41.463755",
+    "type": "manual",
+    "size": 9850
+  },
+  "storage/images/2025_02/capture_20250201_235142.jpg": {
+    "timestamp": "2025-02-01T23:51:42.467821",
+    "type": "manual",
+    "size": 9910
+  },
+  "storage/images/2025_02/capture_20250201_235143.jpg": {
+    "timestamp": "2025-02-01T23:51:43.453809",
+    "type": "manual",
+    "size": 9918
+  },
+  "storage/images/2025_02/capture_20250201_235144.jpg": {
+    "timestamp": "2025-02-01T23:51:44.459582",
+    "type": "manual",
+    "size": 9920
+  },
+  "storage/images/2025_02/capture_20250201_235145.jpg": {
+    "timestamp": "2025-02-01T23:51:45.452145",
+    "type": "manual",
+    "size": 9896
+  },
+  "storage/images/2025_02/capture_20250201_235148.jpg": {
+    "timestamp": "2025-02-01T23:51:48.223889",
+    "type": "manual",
+    "size": 9916
+  },
+  "storage/images/2025_02/capture_20250201_235300.jpg": {
+    "timestamp": "2025-02-01T23:53:00.139360",
+    "type": "manual",
+    "size": 9227
+  },
+  "storage/images/2025_02/capture_20250201_235301.jpg": {
+    "timestamp": "2025-02-01T23:53:01.829076",
+    "type": "manual",
+    "size": 9184
+  },
+  "storage/images/2025_02/capture_20250201_235302.jpg": {
+    "timestamp": "2025-02-01T23:53:02.837012",
+    "type": "manual",
+    "size": 9229
+  },
+  "storage/images/2025_02/capture_20250201_235303.jpg": {
+    "timestamp": "2025-02-01T23:53:03.836402",
+    "type": "manual",
+    "size": 9239
   }
 }

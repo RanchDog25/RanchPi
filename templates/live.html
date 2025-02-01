@@ -34,6 +34,9 @@
         button:hover {
             background-color: #45a049;
         }
+        button.pause {
+            background-color: #f44336;
+        }
         .rotate-0 { 
             transform: rotate(0deg) !important; 
         }
@@ -61,6 +64,7 @@
 
     <div class="button-group">
         <button onclick="rotateCamera()">Rotate View</button>
+        <button onclick="toggleFeed()" id="pauseButton">Pause Feed</button>
         <a href="/"><button>Back to Control Panel</button></a>
     </div>
 
@@ -70,11 +74,48 @@
 
     <script>
         let currentRotation = 0;
+        let isRunning = true;
+        let updateInterval = null;
+        const REFRESH_INTERVAL = 5000; // 5 seconds
 
         function updateLiveFeed() {
+            if (!isRunning) return;
+
             const img = document.getElementById('live-feed');
-            // Add timestamp to prevent caching
-            img.src = '/capture?' + new Date().getTime();
+            const timestamp = new Date().getTime();
+
+            // Create a new image object to preload
+            const newImg = new Image();
+            newImg.onload = function() {
+                img.src = this.src; // Only update once loaded
+            };
+            newImg.src = '/capture?' + timestamp;
+        }
+
+        function toggleFeed() {
+            isRunning = !isRunning;
+            const button = document.getElementById('pauseButton');
+
+            if (isRunning) {
+                button.textContent = 'Pause Feed';
+                button.classList.remove('pause');
+                updateLiveFeed(); // Immediate update
+                startUpdateInterval();
+            } else {
+                button.textContent = 'Resume Feed';
+                button.classList.add('pause');
+                if (updateInterval) {
+                    clearInterval(updateInterval);
+                    updateInterval = null;
+                }
+            }
+        }
+
+        function startUpdateInterval() {
+            if (updateInterval) {
+                clearInterval(updateInterval);
+            }
+            updateInterval = setInterval(updateLiveFeed, REFRESH_INTERVAL);
         }
 
         function rotateCamera() {
@@ -89,18 +130,16 @@
                 if (data.status === 'ok') {
                     const img = document.getElementById('live-feed');
                     currentRotation = data.data.rotation;
-                    // Remove any existing rotation classes
                     img.classList.remove('rotate-0', 'rotate-90', 'rotate-180', 'rotate-270');
-                    // Add the new rotation class
                     img.classList.add(`rotate-${currentRotation}`);
                 }
             })
             .catch(error => console.error('Error:', error));
         }
 
-        // Update live feed every second
+        // Initial setup
         updateLiveFeed();
-        setInterval(updateLiveFeed, 1000);
+        startUpdateInterval();
     </script>
 </body>
 </html>
