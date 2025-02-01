@@ -1,0 +1,50 @@
+INFO:__main__:Status retrieved successfully: {'running': True, 'settings': {'brightness': 50, 'contrast': 50, 'resolution': '640x480'}}
+INFO:werkzeug:192.168.1.143 - - [01/Feb/2025 14:57:20] "GET /status HTTP/1.1" 200 -
+INFO:__main__:Status retrieved successfully: {'running': True, 'settings': {'brightness': 50, 'contrast': 50, 'resolution': '640x480'}}
+INFO:werkzeug:192.168.1.143 - - [01/Feb/2025 14:57:25] "GET /status HTTP/1.1" 200 -
+INFO:__main__:Status retrieved successfully: {'running': True, 'settings': {'brightness': 50, 'contrast': 50, 'resolution': '640x480'}}
+INFO:werkzeug:192.168.1.143 - - [01/Feb/2025 14:58:25] "GET /status HTTP/1.1" 200 -
+^C(venv) admin@ranchcam1:~/RanchPi python3 -c "import platform; print(platform.machine())")"
+aarch64
+(venv) admin@ranchcam1:~/RanchPi $ vcgencmd get_camera
+Can't open device file: /dev/vcio
+Try creating a device file with: sudo mknod /dev/vcio c 100 0
+(venv) admin@ranchcam1:~/RanchPi $ pip3 install picamera2
+Looking in indexes: https://pypi.org/simple, https://www.piwheels.org/simple
+Collecting picamera2
+  Downloading https://www.piwheels.org/simple/picamera2/picamera2-0.3.24-py3-none-any.whl (113 kB)
+Collecting numpy (from picamera2)
+  Downloading numpy-2.2.2-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl.metadata (63 kB)
+Collecting PiDNG (from picamera2)
+  Downloading pidng-4.0.9.tar.gz (21 kB)
+  Installing build dependencies ... done
+  Getting requirements to build wheel ... done
+  Preparing metadata (pyproject.toml) ... done
+Collecting piexif (from picamera2)
+  Downloading https://www.piwheels.org/simple/piexif/piexif-1.1.3-py2.py3-none-any.whl (20 kB)
+Requirement already satisfied: pillow in ./venv/lib/python3.11/site-packages (from picamera2) (11.1.0)
+Collecting simplejpeg (from picamera2)
+  Downloading simplejpeg-1.7.6-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl.metadata (30 kB)
+Collecting v4l2-python3 (from picamera2)
+  Downloading https://www.piwheels.org/simple/v4l2-python3/v4l2_python3-0.3.5-py3-none-any.whl (22 kB)
+Collecting python-prctl (from picamera2)
+  Downloading python-prctl-1.8.1.tar.gz (28 kB)
+  Installing build dependencies ... done
+  Getting requirements to build wheel ... error
+  error: subprocess-exited-with-error
+
+  × Getting requirements to build wheel did not run successfully.
+  │ exit code: 1
+  ╰─> [1 lines of output]
+      You need to install libcap development headers to build this module
+      [end of output]
+
+  note: This error originates from a subprocess, and is likely not a problem with pip.
+error: subprocess-exited-with-error
+
+× Getting requirements to build wheel did not run successfully.
+│ exit code: 1
+╰─> See above for output.
+
+note: This error originates from a subprocess, and is likely not a problem with pip.
+(venv) admin@ranchcam1:~/RanchPi $
