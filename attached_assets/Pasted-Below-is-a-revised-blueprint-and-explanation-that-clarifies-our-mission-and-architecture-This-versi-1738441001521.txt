@@ -1,0 +1,99 @@
+Below is a revised blueprint and explanation that clarifies our mission and architecture. This version makes it clear that we do **not** want to store or sync images to GitHub—instead, we want the Raspberry Pi to serve images via an API, and the Replit UI will pull those images into its own file store (or display them directly).
+
+---
+
+## **Revised Blueprint for Camera Streaming & Synchronization**
+
+### **Development Architecture**
+
+1. **Raspberry Pi (Camera Control Service):**
+
+   - **Purpose:**  
+     Manage the Pi camera hardware, capture images, and stream live video.
+     
+   - **Code Repository:**  
+     The Pi’s code (camera service, API endpoints, control logic) is stored in a GitHub repository for version control and deployment. **Only code is stored in GitHub; images are not.**
+     
+   - **API Endpoints:**  
+     - `/live`: Provides a live video stream (for example, via WebRTC or an MJPEG stream).  
+     - `/capture`: Captures a JPEG image on demand and returns it.  
+     - `/status`: Returns the camera’s operational status.  
+     - `/settings`: Accepts commands to adjust camera parameters.
+     
+   - **Deployment:**  
+     The Raspberry Pi pulls the latest code from GitHub via SSH, runs the camera control service locally, and serves the API over the network.
+
+2. **Replit (UI & Client Application):**
+
+   - **Purpose:**  
+     Host a web-based user interface that displays the live camera view and captured images, and allows users to control the Pi’s camera behavior.
+     
+   - **Development Environment:**  
+     The UI code is developed and hosted in Replit using a Flask-based web interface (or another framework if desired).  
+     
+   - **API Client:**  
+     The Replit UI includes an API client that communicates with the Pi’s REST API. It periodically (or on user action) pulls the latest captured image or live stream from the Pi.
+     
+   - **Image Handling:**  
+     Images are not stored in GitHub. Instead, they are dynamically retrieved from the Pi via the API and temporarily stored (or displayed directly) within the Replit UI’s file store.
+     
+   - **Separation of Concerns:**  
+     The Replit UI code remains independent of the Pi’s camera code. They interact solely via the defined API endpoints.
+
+### **Implementation Plan**
+
+#### **Phase 1 – Raspberry Pi Camera Service:**
+- **Set Up Camera Service:**  
+  Develop and deploy the camera control code on the Pi.  
+- **API Endpoints:**  
+  Implement endpoints such as `/live`, `/capture`, `/status`, and `/settings`.
+- **Testing:**  
+  Verify that the Pi can capture images and stream live video over the network.
+
+#### **Phase 2 – Image Delivery (Not GitHub Sync):**
+- **Dynamic Image Serving:**  
+  Ensure that the Pi serves images only on demand via the API rather than storing them in GitHub.
+- **No GitHub Sync:**  
+  Clarify that images remain on the Pi and are delivered dynamically to the UI.
+
+#### **Phase 3 – Replit UI Enhancement:**
+- **UI Development:**  
+  Enhance the Replit-hosted web interface to display the live stream and captured images.
+- **API Integration:**  
+  Build functionality in the UI to fetch images from the Pi’s `/capture` or `/live` endpoints.
+- **Control Interface:**  
+  Add buttons or controls that send commands to the Pi’s `/settings` or `/capture` endpoints, allowing real-time control of the camera.
+
+### **Communication Flow**
+
+```
+[User] 
+   ↕
+[Replit UI (Hosted in Replit)]  ←–––→  [Raspberry Pi Camera Service (Hosted on Pi)]
+                                  (Exposes REST API: /live, /capture, /status, /settings)
+```
+
+- **Note:** GitHub is used only for storing and versioning the code (for both the Pi and, if applicable, the UI). The actual image data is delivered via the API over the network.
+
+---
+
+## **Summary & Request to Replit**
+
+**Summary:**  
+We have two separate systems:
+- **Raspberry Pi Camera Service:**  
+  This runs on the Pi, controls the camera hardware, and exposes REST API endpoints (e.g., `/live` and `/capture`) to provide live streaming and captured images. Only the code is stored in GitHub; images are served dynamically and never stored or synced via GitHub.
+- **Replit UI:**  
+  This web interface is developed and hosted in Replit. It pulls images from the Pi’s API and displays them. The Replit UI communicates with the Pi using HTTP requests to control the camera and retrieve images.
+
+**Request:**  
+I would like our Replit setup to:
+- **Maintain its own UI code within Replit,** which displays the live camera feed and captured images.
+- **Pull images from the Raspberry Pi’s REST API** (rather than storing images in GitHub) so that the Replit UI accesses the most current camera data.
+- **Allow the Replit UI to send control commands** to the Pi to adjust camera behavior (e.g., capture new images, change settings).
+
+This architecture ensures that our dynamic image data flows directly from the Raspberry Pi to the Replit UI via a secure API, while GitHub is reserved solely for version control of the code.
+
+---
+
+This detailed explanation should clarify the mission and workflow for both teams and ensure that our system meets the requirements without syncing images to GitHub. Let me know if you need any further adjustments or clarifications!
