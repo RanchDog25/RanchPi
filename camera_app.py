@@ -39,39 +39,51 @@ def initialize_camera():
                 from picamera2 import Picamera2
                 logger.info("Successfully imported picamera2")
 
-                # Initialize camera
-                camera = Picamera2()
-                logger.info("Created Picamera2 instance")
-
-                # Configure camera
-                camera_config = camera.create_still_configuration(
-                    main={"size": (640, 480)},
-                    lores={"size": (320, 240)},
-                    display="lores"
-                )
-                logger.info(f"Created camera configuration: {camera_config}")
-
-                camera.configure(camera_config)
-                logger.info("Applied camera configuration")
-
-                camera.start()
-                logger.info("Started camera")
-
-                time.sleep(2)  # Give camera time to initialize
-
-                # Test capture to verify camera is working
+                # Check for camera access
                 try:
-                    camera.capture_file("test.jpg")
-                    logger.info("Successfully performed test capture")
-                    os.remove("test.jpg")  # Clean up test file
-                except Exception as capture_error:
-                    logger.error(f"Test capture failed: {capture_error}")
-                    raise
+                    # Initialize camera with detailed logging
+                    camera = Picamera2()
+                    logger.info("Created Picamera2 instance")
 
-                return camera
+                    # List available cameras
+                    cameras = camera.global_camera_info()
+                    logger.info(f"Available cameras: {cameras}")
+
+                    # Configure camera
+                    camera_config = camera.create_still_configuration(
+                        main={"size": (640, 480)},
+                        lores={"size": (320, 240)},
+                        display="lores"
+                    )
+                    logger.info(f"Created camera configuration: {camera_config}")
+
+                    camera.configure(camera_config)
+                    logger.info("Applied camera configuration")
+
+                    camera.start()
+                    logger.info("Started camera")
+
+                    time.sleep(2)  # Give camera time to initialize
+
+                    # Test capture to verify camera is working
+                    try:
+                        camera.capture_file("test.jpg")
+                        logger.info("Successfully performed test capture")
+                        os.remove("test.jpg")  # Clean up test file
+                    except Exception as capture_error:
+                        logger.error(f"Test capture failed: {capture_error}")
+                        raise
+
+                    return camera
+
+                except Exception as camera_error:
+                    logger.error(f"Error accessing camera hardware: {camera_error}")
+                    logger.info("Please ensure camera is enabled in raspi-config")
+                    raise
 
             except ImportError as e:
                 logger.error(f"Failed to import picamera2: {e}")
+                logger.info("Please install required packages: sudo apt-get install -y python3-libcamera python3-picamera2")
                 logger.info("Falling back to mock camera")
                 return MockCamera()
             except Exception as e:
