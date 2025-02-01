@@ -52,10 +52,26 @@
         input[type="range"] {
             width: 200px;
         }
-        .rotate-0 { transform: rotate(0deg); }
-        .rotate-90 { transform: rotate(90deg); }
-        .rotate-180 { transform: rotate(180deg); }
-        .rotate-270 { transform: rotate(270deg); }
+        .rotate-0 { 
+            transform: rotate(0deg) !important; 
+        }
+        .rotate-90 { 
+            transform: rotate(90deg) !important; 
+        }
+        .rotate-180 { 
+            transform: rotate(180deg) !important; 
+        }
+        .rotate-270 { 
+            transform: rotate(270deg) !important; 
+        }
+        .image-container {
+            width: 100%;
+            height: 480px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
     </style>
 </head>
 <body>
@@ -86,11 +102,13 @@
         </label>
     </div>
 
-    <div>
-        <img id="camera-feed" src="" alt="No image captured yet" />
+    <div class="image-container">
+        <img id="camera-feed" src="" alt="No image captured yet" class="rotate-0" />
     </div>
 
     <script>
+        let currentRotation = 0;
+
         function captureImage() {
             fetch('/capture')
                 .then(response => response.blob())
@@ -118,6 +136,15 @@
                         document.getElementById('brightness-value').textContent = status.settings.brightness;
                         document.getElementById('contrast').value = status.settings.contrast;
                         document.getElementById('contrast-value').textContent = status.settings.contrast;
+
+                        // Update rotation if needed
+                        if (status.settings.rotation !== undefined && 
+                            status.settings.rotation !== currentRotation) {
+                            currentRotation = status.settings.rotation;
+                            const img = document.getElementById('camera-feed');
+                            img.classList.remove('rotate-0', 'rotate-90', 'rotate-180', 'rotate-270');
+                            img.classList.add(`rotate-${currentRotation}`);
+                        }
                     }
                 })
                 .catch(error => console.error('Error:', error));
@@ -155,12 +182,11 @@
             .then(response => response.json())
             .then(data => {
                 if (data.status === 'ok') {
+                    currentRotation = data.data.rotation;
                     const img = document.getElementById('camera-feed');
-                    // Remove any existing rotation classes
                     img.classList.remove('rotate-0', 'rotate-90', 'rotate-180', 'rotate-270');
-                    // Add the new rotation class
-                    img.classList.add(`rotate-${data.data.rotation}`);
-                    updateStatus();  // Update status display
+                    img.classList.add(`rotate-${currentRotation}`);
+                    updateStatus();
                 }
             })
             .catch(error => console.error('Error:', error));

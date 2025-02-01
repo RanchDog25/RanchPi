@@ -114,7 +114,7 @@ class MockCamera:
             'brightness': 50,
             'contrast': 50,
             'resolution': f"{self.width}x{self.height}",
-            'rotation': 0  # Add rotation setting
+            'rotation': 0
         }
         self.is_running = False
         logger.info("Mock camera initialized")
@@ -135,6 +135,10 @@ class MockCamera:
 
             # Add some text and timestamp
             timestamp = time.strftime("%Y-%m-%d %H:%M:%S")
+            # Apply rotation to the image
+            if self.settings['rotation'] != 0:
+                img = img.rotate(self.settings['rotation'])
+
             draw.text((self.width//2 - 100, self.height//2), 
                      'Development Mode', fill='white')
             draw.text((10, self.height - 30), 
