@@ -39,12 +39,13 @@
         <a href="/"><button>Back to Control Panel</button></a>
     </div>
     <div>
-        <img id="live-feed" src="" alt="Live feed loading..." />
+        <img id="live-feed" src="/capture" alt="Live feed loading..." />
     </div>
 
     <script>
         function updateLiveFeed() {
             const img = document.getElementById('live-feed');
+            // Add timestamp to prevent caching
             img.src = '/capture?' + new Date().getTime();
         }
 
