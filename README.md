@@ -109,3 +109,50 @@ This project uses two different authentication methods:
 ## Project Purpose
 Raspberry Pi dev for Ranch Cams
 Travis and Jackson 2/1/25, making Ranching Intelligence history
+
+## Camera Application Setup
+
+### 1. Development Environment (Replit)
+The camera application runs in development mode on Replit, simulating camera captures with test images. To test:
+
+```bash
+python camera_app.py
+```
+
+### 2. Raspberry Pi Setup
+
+1. Ensure your camera module is properly connected to the Pi
+
+2. Install required packages:
+   ```bash
+   sudo apt update
+   sudo apt install -y python3-picamera2 python3-libcamera
+   pip3 install flask pillow
+   ```
+
+3. Clone the repository (if not already done):
+   ```bash
+   git clone git@github.com:RanchDog25/RanchPi.git
+   cd RanchPi
+   ```
+
+4. Run the camera application:
+   ```bash
+   python3 camera_app.py
+   ```
+
+### 3. Automatic Image Capture and Sync
+
+To automatically capture images and sync them to GitHub:
+
+1. On your Raspberry Pi, run:
+   ```bash
+   python3 pi_camera_sync.py
+   ```
+
+This will:
+- Capture an image using the Pi camera
+- Save it with a timestamp
+- Automatically push it to the GitHub repository
+
+Images are stored in the `captured_images` directory and automatically synced to GitHub.

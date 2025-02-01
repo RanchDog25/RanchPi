@@ -45,3 +45,11 @@ Thumbs.db
 # Local development
 .env
 .env.local
+
+# Camera files
+*.tmp
+latest.jpg
+
+# Keep captured_images directory
+!captured_images/
+!captured_images/*.jpg
