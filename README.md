@@ -4,22 +4,19 @@ This repository contains a Python development environment setup for Raspberry Pi
 
 ## Setup Instructions
 
-### 1. Initial Setup on Development Machine
+### 1. Initial Setup on Development Machine (Replit)
 
-1. Clone this repository:
+1. Clone this repository using HTTPS:
    ```bash
-   git clone <your-repository-url>
-   cd raspberry-pi-dev
+   git clone https://github.com/RanchDog25/RanchPi.git
+   cd RanchPi
    ```
 
-2. Set up GitHub integration:
+2. Configure Git:
    ```bash
-   python3 setup_github.py
+   ./configure_git.sh
    ```
-   This will:
-   - Configure your Git username and email
-   - Generate SSH keys if needed
-   - Guide you through adding SSH keys to GitHub
+   This will set up your Git credentials for pushing changes from Replit.
 
 ### 2. Usage
 
@@ -59,26 +56,35 @@ A basic sample project is included in the `sample_project` directory to test the
    sudo apt install git
    ```
 
-2. Clone the repository using SSH:
+2. Generate SSH key on Pi (if not already done):
    ```bash
-   git clone git@github.com:your-username/your-repo-name.git
+   ssh-keygen -t ed25519 -C "administration@evergold.tech"
    ```
 
-3. Pull latest changes when needed:
+3. Add the SSH key to GitHub:
+   - Display your public key: `cat ~/.ssh/id_ed25519.pub`
+   - Add this key to GitHub (Settings → SSH and GPG keys)
+
+4. Clone the repository using SSH on Pi:
+   ```bash
+   git clone git@github.com:RanchDog25/RanchPi.git
+   ```
+
+5. Pull latest changes when needed:
    ```bash
    python3 git_utils.py pull
    ```
 
 ## Development Workflow
 
-1. Develop and test code on your development machine
+1. Develop and test code on Replit (using HTTPS connection)
 2. Push changes to GitHub using `git_utils.py`
-3. Pull changes on your Raspberry Pi using `git_utils.py`
+3. Pull changes on your Raspberry Pi (using SSH connection)
 4. Run and test your code on the Raspberry Pi
 
 ## Requirements
 
 - Python 3.x
 - Git
-- SSH access to GitHub
+- SSH access to GitHub (for Pi only)
 - Raspberry Pi OS Lite (64-bit)
