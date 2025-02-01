@@ -94,6 +94,25 @@ class MockCamera:
             logger.error(f"Mock camera: error capturing image: {e}")
             return False
 
+    def get_status(self):
+        """Get the current status of the mock camera"""
+        return {
+            'running': self.is_running,
+            'settings': self.settings
+        }
+
+    def update_settings(self, new_settings):
+        """Update mock camera settings"""
+        try:
+            for key, value in new_settings.items():
+                if key in self.settings:
+                    self.settings[key] = value
+            logger.info(f"Mock camera: settings updated to {self.settings}")
+            return self.settings
+        except Exception as e:
+            logger.error(f"Mock camera: error updating settings: {e}")
+            raise
+
 # Initialize camera globally
 camera = initialize_camera()
 
@@ -146,9 +165,9 @@ def get_status():
         return jsonify({'status': 'error', 'message': 'Camera not initialized'}), 500
 
     try:
-        status = camera.get_status()
-        logger.info("Status retrieved successfully")
-        return jsonify({'status': 'ok', 'data': status})
+        status_data = camera.get_status()
+        logger.info(f"Status retrieved successfully: {status_data}")
+        return jsonify({'status': 'ok', 'data': status_data})
     except Exception as e:
         logger.error(f"Error getting status: {e}")
         return jsonify({'status': 'error', 'message': str(e)}), 500
@@ -163,19 +182,21 @@ def camera_settings():
     if request.method == 'POST':
         try:
             new_settings = request.get_json()
+            logger.info(f"Attempting to update settings: {new_settings}")
             updated_settings = camera.update_settings(new_settings)
-            logger.info(f"Settings updated: {new_settings}")
+            logger.info(f"Settings updated successfully: {updated_settings}")
             return jsonify({'status': 'ok', 'data': updated_settings})
         except Exception as e:
             logger.error(f"Error updating settings: {e}")
             return jsonify({'status': 'error', 'message': str(e)}), 500
     else:
         try:
-            status = camera.get_status()
-            return jsonify({'status': 'ok', 'data': status['settings']})
+            settings = camera.get_status()['settings']
+            return jsonify({'status': 'ok', 'data': settings})
         except Exception as e:
             logger.error(f"Error getting settings: {e}")
             return jsonify({'status': 'error', 'message': str(e)}), 500
+
 
 @app.route('/live')
 def live_feed():
