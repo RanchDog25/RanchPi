@@ -14,6 +14,9 @@ import threading
 import schedule
 import shutil
 import json
+import asyncio
+import websockets
+from websocket_server import start_server, get_connected_devices
 
 # Configure logging with more detail
 logging.basicConfig(
@@ -488,7 +491,26 @@ def list_images():
         'data': metadata
     })
 
+@app.route('/devices')
+def list_devices():
+    """List all connected devices"""
+    devices = get_connected_devices()
+    return jsonify({
+        'status': 'ok',
+        'data': devices
+    })
 
+# Modify main section to run both Flask and WebSocket server
 if __name__ == '__main__':
-    logger.info("Starting Flask server on 0.0.0.0:5000")
-    app.run(host='0.0.0.0', port=5000, debug=False, threaded=True)
+    logger.info("Starting WebSocket server and Flask application")
+
+    # Create event loop
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+
+    # Start WebSocket server in background
+    ws_server = loop.create_task(start_server())
+
+    # Run Flask app
+    from werkzeug.serving import run_simple
+    run_simple('0.0.0.0', 5000, app, use_reloader=False, threaded=True)
