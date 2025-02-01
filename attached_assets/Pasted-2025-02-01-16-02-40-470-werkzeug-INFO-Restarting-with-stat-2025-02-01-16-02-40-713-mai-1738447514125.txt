@@ -1,0 +1,94 @@
+2025-02-01 16:02:40,470 - werkzeug - INFO -  * Restarting with stat
+2025-02-01 16:02:40,713 - __main__ - INFO - Detected platform machine: aarch64
+2025-02-01 16:02:40,714 - __main__ - INFO - Is Raspberry Pi? True
+2025-02-01 16:02:40,714 - __main__ - INFO - Detected ARM architecture (Raspberry Pi hardware)
+2025-02-01 16:02:41,027 - __main__ - INFO - Successfully imported picamera2
+[0:18:18.257007505] [975]  INFO Camera camera_manager.cpp:327 libcamera v0.4.0+50-83cb8101
+[0:18:18.268249254] [978]  INFO RPI pisp.cpp:720 libpisp version v1.1.0 e7974a156008 27-01-2025 (21:50:51)
+[0:18:18.269051019] [978] ERROR V4L2 v4l2_device.cpp:390 'imx477 6-001a': Unable to set controls: Device or resource busy
+[0:18:18.282708694] [978]  INFO RPI pisp.cpp:1179 Registered camera /base/axi/pcie@120000/rp1/i2c@88000/imx477@1a to CFE device /dev/media0 and ISP device /dev/media1 using PiSP variant BCM2712_C0
+2025-02-01 16:02:41,054 - picamera2.picamera2 - INFO - Initialization successful.
+[0:18:18.284179763] [975]  INFO Camera camera.cpp:1008 Pipeline handler in use by another process
+2025-02-01 16:02:41,055 - picamera2.picamera2 - ERROR - Camera __init__ sequence did not complete.
+2025-02-01 16:02:41,055 - __main__ - ERROR - Error initializing Raspberry Pi camera: Camera __init__ sequence did not complete.
+2025-02-01 16:02:41,055 - __main__ - INFO - Falling back to mock camera
+2025-02-01 16:02:41,055 - __main__ - INFO - Mock camera initialized
+2025-02-01 16:02:41,057 - __main__ - INFO - Starting Flask server on 0.0.0.0:5000
+2025-02-01 16:02:41,068 - werkzeug - WARNING -  * Debugger is active!
+2025-02-01 16:02:41,068 - werkzeug - INFO -  * Debugger PIN: 952-130-049
+^C2025-02-01 16:03:09,071 - picamera2.picamera2 - INFO - Camera stopped
+2025-02-01 16:03:09,273 - picamera2.picamera2 - INFO - Camera closed successfully.
+(venv) admin@ranchcam1:~/RanchPi $ sudo reboot
+
+Broadcast message from root@ranchcam1 on pts/1 (Sat 2025-02-01 16:03:14 CST):
+
+The system will reboot now!
+
+(venv) admin@ranchcam1:~/RanchPi $ Connection to 192.168.1.135 closed by remote host.
+Connection to 192.168.1.135 closed.
+
+AzureAD+TravisEtzler@EtzlerTech-PC MINGW64 ~
+$ ssh admin@192.168.1.135
+admin@192.168.1.135's password:
+Linux ranchcam1 6.6.51+rpt-rpi-2712 #1 SMP PREEMPT Debian 1:6.6.51-1+rpt3 (2024-10-08) aarch64
+
+The programs included with the Debian GNU/Linux system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+permitted by applicable law.
+Last login: Sat Feb  1 15:44:46 2025 from 192.168.1.143
+admin@ranchcam1:~ $ source venv/bin/activate
+-bash: venv/bin/activate: No such file or directory
+admin@ranchcam1:~ $ cd RanchPi
+admin@ranchcam1:~/RanchPi $ source venv/bin/activate
+(venv) admin@ranchcam1:~/RanchPi $ sudo /home/admin/RanchPi/venv/bin/python3 camera_app.py
+2025-02-01 16:04:26,248 - __main__ - INFO - Detected platform machine: aarch64
+2025-02-01 16:04:26,248 - __main__ - INFO - Is Raspberry Pi? True
+2025-02-01 16:04:26,248 - __main__ - INFO - Detected ARM architecture (Raspberry Pi hardware)
+2025-02-01 16:04:27,589 - __main__ - INFO - Successfully imported picamera2
+[0:01:01.404733305] [804]  INFO Camera camera_manager.cpp:327 libcamera v0.4.0+50-83cb8101
+[0:01:01.423215895] [809]  INFO RPI pisp.cpp:720 libpisp version v1.1.0 e7974a156008 27-01-2025 (21:50:51)
+[0:01:01.444659276] [809]  INFO RPI pisp.cpp:1179 Registered camera /base/axi/pcie@120000/rp1/i2c@88000/imx477@1a to CFE device /dev/media0 and ISP device /dev/media1 using PiSP variant BCM2712_C0
+2025-02-01 16:04:27,644 - picamera2.picamera2 - INFO - Initialization successful.
+2025-02-01 16:04:27,645 - picamera2.picamera2 - INFO - Camera now open.
+2025-02-01 16:04:27,647 - picamera2 - INFO - Failed to open /dev/dma_heap/vidbuf_cached
+2025-02-01 16:04:27,647 - __main__ - INFO - Created Picamera2 instance
+2025-02-01 16:04:27,647 - __main__ - INFO - Created camera configuration: {'use_case': 'still', 'transform': <libcamera.Transform 'identity'>, 'colour_space': <libcamera.ColorSpace 'sYCC'>, 'buffer_count': 1, 'queue': True, 'main': {'format': 'BGR888', 'size': (640, 480), 'preserve_ar': True}, 'lores': {'format': 'YUV420', 'size': (320, 240), 'preserve_ar': False}, 'raw': {'format': 'SRGGB12_CSI2P', 'size': (640, 480)}, 'controls': {'NoiseReductionMode': <NoiseReductionModeEnum.HighQuality: 2>, 'FrameDurationLimits': (100, 1000000000)}, 'sensor': {}, 'display': 'lores', 'encode': None}
+2025-02-01 16:04:27,649 - picamera2.picamera2 - INFO - Camera configuration has been adjusted!
+[0:01:01.450148637] [804]  INFO Camera camera.cpp:1202 configuring streams: (0) 640x480-BGR888 (1) 320x240-YUV420 (2) 2028x1520-BGGR_PISP_COMP1
+[0:01:01.450285287] [809]  INFO RPI pisp.cpp:1484 Sensor: /base/axi/pcie@120000/rp1/i2c@88000/imx477@1a - Selected sensor format: 2028x1520-SBGGR12_1X12 - Selected CFE format: 2028x1520-PC1B
+2025-02-01 16:04:27,655 - picamera2.picamera2 - INFO - Configuration successful!
+2025-02-01 16:04:27,659 - __main__ - INFO - Applied camera configuration
+2025-02-01 16:04:28,203 - picamera2.picamera2 - INFO - Camera started
+2025-02-01 16:04:28,203 - __main__ - INFO - Started camera
+2025-02-01 16:04:30,332 - picamera2.request - INFO - Saved <picamera2.request.Helpers object at 0x7fff48cf3e90> to file test.jpg.
+2025-02-01 16:04:30,332 - picamera2.request - INFO - Time taken for encode: 66.37919499999612 ms.
+2025-02-01 16:04:30,332 - __main__ - INFO - Successfully performed test capture
+2025-02-01 16:04:30,335 - __main__ - INFO - Starting Flask server on 0.0.0.0:5000
+ * Serving Flask app 'camera_app'
+ * Debug mode: on
+2025-02-01 16:04:30,357 - werkzeug - INFO - WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.136:5000
+2025-02-01 16:04:30,357 - werkzeug - INFO - Press CTRL+C to quit
+2025-02-01 16:04:30,359 - werkzeug - INFO -  * Restarting with stat
+2025-02-01 16:04:30,598 - __main__ - INFO - Detected platform machine: aarch64
+2025-02-01 16:04:30,598 - __main__ - INFO - Is Raspberry Pi? True
+2025-02-01 16:04:30,598 - __main__ - INFO - Detected ARM architecture (Raspberry Pi hardware)
+2025-02-01 16:04:30,911 - __main__ - INFO - Successfully imported picamera2
+[0:01:04.713284645] [815]  INFO Camera camera_manager.cpp:327 libcamera v0.4.0+50-83cb8101
+[0:01:04.724648068] [818]  INFO RPI pisp.cpp:720 libpisp version v1.1.0 e7974a156008 27-01-2025 (21:50:51)
+[0:01:04.725475455] [818] ERROR V4L2 v4l2_device.cpp:390 'imx477 6-001a': Unable to set controls: Device or resource busy
+[0:01:04.739170927] [818]  INFO RPI pisp.cpp:1179 Registered camera /base/axi/pcie@120000/rp1/i2c@88000/imx477@1a to CFE device /dev/media0 and ISP device /dev/media1 using PiSP variant BCM2712_C0
+2025-02-01 16:04:30,939 - picamera2.picamera2 - INFO - Initialization successful.
+[0:01:04.740759824] [815]  INFO Camera camera.cpp:1008 Pipeline handler in use by another process
+2025-02-01 16:04:30,940 - picamera2.picamera2 - ERROR - Camera __init__ sequence did not complete.
+2025-02-01 16:04:30,940 - __main__ - ERROR - Error initializing Raspberry Pi camera: Camera __init__ sequence did not complete.
+2025-02-01 16:04:30,940 - __main__ - INFO - Falling back to mock camera
+2025-02-01 16:04:30,940 - __main__ - INFO - Mock camera initialized
+2025-02-01 16:04:30,943 - __main__ - INFO - Starting Flask server on 0.0.0.0:5000
+2025-02-01 16:04:30,953 - werkzeug - WARNING -  * Debugger is active!
+2025-02-01 16:04:30,954 - werkzeug - INFO -  * Debugger PIN: 952-130-049

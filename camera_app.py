@@ -264,6 +264,6 @@ def live_feed():
     return render_template('live.html')
 
 if __name__ == '__main__':
-    # Enable all interfaces (0.0.0.0) and use port 5000
+    # Disable debug mode and reloader to prevent camera initialization conflicts
     logger.info("Starting Flask server on 0.0.0.0:5000")
-    app.run(host='0.0.0.0', port=5000, debug=True, threaded=True)
+    app.run(host='0.0.0.0', port=5000, debug=False, use_reloader=False)
