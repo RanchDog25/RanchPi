@@ -9,6 +9,9 @@ from flask import Flask, render_template, send_file, jsonify, request
 from flask_cors import CORS
 from werkzeug.serving import is_running_from_reloader
 import numpy as np
+from datetime import datetime
+import threading
+import schedule
 
 # Configure logging with more detail
 logging.basicConfig(
@@ -34,9 +37,15 @@ CORS(app, resources={
 # Disable Flask debug mode
 app.debug = False
 
-# Ensure the images directory exists
+# Global variables section
 UPLOAD_FOLDER = Path("static/images")
 UPLOAD_FOLDER.mkdir(parents=True, exist_ok=True)
+
+# Add scheduled capture settings
+CAPTURE_SETTINGS = {
+    'interval': 0,  # 0 means disabled, otherwise minutes between captures
+    'is_scheduled': False
+}
 
 # Global camera instance
 camera = None
@@ -56,7 +65,44 @@ class MockCamera:
         self.height = 480
         self.settings = CAMERA_SETTINGS.copy()
         self.is_running = True
+        self.capture_thread = None
         logger.info("Mock camera initialized with settings: %s", self.settings)
+
+    def start_scheduled_capture(self, interval_minutes):
+        """Start scheduled capture"""
+        if interval_minutes <= 0:
+            logger.info("Scheduled capture disabled")
+            CAPTURE_SETTINGS['is_scheduled'] = False
+            CAPTURE_SETTINGS['interval'] = 0
+            return
+
+        CAPTURE_SETTINGS['interval'] = interval_minutes
+        CAPTURE_SETTINGS['is_scheduled'] = True
+        logger.info(f"Starting scheduled capture every {interval_minutes} minutes")
+
+        def scheduled_capture():
+            while CAPTURE_SETTINGS['is_scheduled']:
+                self.capture_scheduled_image()
+                time.sleep(interval_minutes * 60)
+
+        if self.capture_thread is None or not self.capture_thread.is_alive():
+            self.capture_thread = threading.Thread(target=scheduled_capture)
+            self.capture_thread.daemon = True
+            self.capture_thread.start()
+
+    def stop_scheduled_capture(self):
+        """Stop scheduled capture"""
+        CAPTURE_SETTINGS['is_scheduled'] = False
+        CAPTURE_SETTINGS['interval'] = 0
+        logger.info("Stopped scheduled capture")
+
+    def capture_scheduled_image(self):
+        """Capture image on schedule"""
+        timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
+        filename = f"scheduled_{timestamp}.jpg"
+        filepath = UPLOAD_FOLDER / filename
+        self.capture_file(str(filepath))
+        logger.info(f"Scheduled capture saved to {filepath}")
 
     def start(self):
         self.is_running = True
@@ -339,6 +385,48 @@ def rotate_camera():
 def live_feed():
     """Render the live feed page."""
     return render_template('live.html')
+
+# Add new endpoint for scheduled capture settings
+@app.route('/schedule', methods=['POST'])
+def set_schedule():
+    """Set or update scheduled capture interval"""
+    if not camera:
+        return jsonify({'status': 'error', 'message': 'Camera not initialized'}), 500
+
+    try:
+        data = request.get_json()
+        interval = int(data.get('interval', 0))
+
+        if interval > 0:
+            camera.start_scheduled_capture(interval)
+            message = f"Scheduled capture enabled every {interval} minutes"
+        else:
+            camera.stop_scheduled_capture()
+            message = "Scheduled capture disabled"
+
+        return jsonify({
+            'status': 'ok',
+            'message': message,
+            'settings': {
+                'interval': CAPTURE_SETTINGS['interval'],
+                'is_scheduled': CAPTURE_SETTINGS['is_scheduled']
+            }
+        })
+    except Exception as e:
+        logger.error(f"Error setting schedule: {e}")
+        return jsonify({'status': 'error', 'message': str(e)}), 500
+
+@app.route('/schedule/status')
+def get_schedule_status():
+    """Get current schedule settings"""
+    return jsonify({
+        'status': 'ok',
+        'settings': {
+            'interval': CAPTURE_SETTINGS['interval'],
+            'is_scheduled': CAPTURE_SETTINGS['is_scheduled']
+        }
+    })
+
 
 if __name__ == '__main__':
     logger.info("Starting Flask server on 0.0.0.0:5000")

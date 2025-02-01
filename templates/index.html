@@ -52,7 +52,7 @@
         input[type="range"] {
             width: 200px;
         }
-        .rotate-0 { 
+         .rotate-0 { 
             transform: rotate(0deg) !important; 
         }
         .rotate-90 { 
@@ -81,6 +81,16 @@
         <button onclick="captureImage()">Capture Image</button>
         <button onclick="rotateCamera()">Rotate View</button>
         <a href="/live"><button>Live Feed</button></a>
+    </div>
+
+    <div class="settings-group">
+        <h3>Scheduled Capture</h3>
+        <label>
+            Capture Interval (minutes):
+            <input type="number" id="capture-interval" min="0" value="0" style="width: 100px;">
+            <button onclick="updateSchedule()">Update Schedule</button>
+        </label>
+        <p id="schedule-status">Schedule: Disabled</p>
     </div>
 
     <div id="status-panel">
@@ -192,9 +202,53 @@
             .catch(error => console.error('Error:', error));
         }
 
+        function updateSchedule() {
+            const interval = document.getElementById('capture-interval').value;
+            fetch('/schedule', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ interval: parseInt(interval) })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'ok') {
+                    document.getElementById('schedule-status').textContent = 
+                        `Schedule: ${data.settings.is_scheduled ? 
+                            `Every ${data.settings.interval} minutes` : 
+                            'Disabled'}`;
+                    updateStatus();
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        function checkScheduleStatus() {
+            fetch('/schedule/status')
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'ok') {
+                    document.getElementById('capture-interval').value = data.settings.interval;
+                    document.getElementById('schedule-status').textContent = 
+                        `Schedule: ${data.settings.is_scheduled ? 
+                            `Every ${data.settings.interval} minutes` : 
+                            'Disabled'}`;
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+
         // Update status every 5 seconds
         updateStatus();
         setInterval(updateStatus, 5000);
+
+        // Add schedule status check to the initial page load
+        checkScheduleStatus();
+
+        // Add schedule status check to the regular status updates
+        setInterval(checkScheduleStatus, 5000);
     </script>
 </body>
 </html>
