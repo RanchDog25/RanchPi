@@ -15,6 +15,9 @@
             margin: 20px 0;
             border: 2px solid #ccc;
         }
+        .button-group {
+            margin: 20px 0;
+        }
         button {
             padding: 10px 20px;
             font-size: 16px;
@@ -23,15 +26,60 @@
             border: none;
             border-radius: 4px;
             cursor: pointer;
+            margin: 0 10px;
         }
         button:hover {
             background-color: #45a049;
+        }
+        #status-panel {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 20px 0;
+            text-align: left;
+        }
+        .settings-group {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .settings-group label {
+            display: block;
+            margin: 10px 0;
+        }
+        input[type="range"] {
+            width: 200px;
         }
     </style>
 </head>
 <body>
     <h1>RanchPi Camera Control</h1>
-    <button onclick="captureImage()">Capture Image</button>
+
+    <div class="button-group">
+        <button onclick="captureImage()">Capture Image</button>
+        <a href="/live"><button>Live Feed</button></a>
+    </div>
+
+    <div id="status-panel">
+        <h3>Camera Status</h3>
+        <div id="camera-status">Loading...</div>
+    </div>
+
+    <div class="settings-group">
+        <h3>Camera Settings</h3>
+        <label>
+            Brightness:
+            <input type="range" id="brightness" min="0" max="100" value="50" onchange="updateSettings('brightness')">
+            <span id="brightness-value">50</span>
+        </label>
+        <label>
+            Contrast:
+            <input type="range" id="contrast" min="0" max="100" value="50" onchange="updateSettings('contrast')">
+            <span id="contrast-value">50</span>
+        </label>
+    </div>
+
     <div>
         <img id="camera-feed" src="" alt="No image captured yet" />
     </div>
@@ -46,6 +94,54 @@
                 })
                 .catch(error => console.error('Error:', error));
         }
+
+        function updateStatus() {
+            fetch('/status')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'ok') {
+                        const status = data.data;
+                        document.getElementById('camera-status').innerHTML = `
+                            Running: ${status.running}<br>
+                            Resolution: ${status.settings.resolution}<br>
+                            Brightness: ${status.settings.brightness}<br>
+                            Contrast: ${status.settings.contrast}
+                        `;
+                        // Update sliders
+                        document.getElementById('brightness').value = status.settings.brightness;
+                        document.getElementById('brightness-value').textContent = status.settings.brightness;
+                        document.getElementById('contrast').value = status.settings.contrast;
+                        document.getElementById('contrast-value').textContent = status.settings.contrast;
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        function updateSettings(setting) {
+            const value = document.getElementById(setting).value;
+            document.getElementById(`${setting}-value`).textContent = value;
+
+            fetch('/settings', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    [setting]: parseInt(value)
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'ok') {
+                    updateStatus();
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+        // Update status every 5 seconds
+        updateStatus();
+        setInterval(updateStatus, 5000);
     </script>
 </body>
 </html>

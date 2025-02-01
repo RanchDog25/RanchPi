@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>RanchPi Camera - Live Feed</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+        #live-feed {
+            max-width: 100%;
+            margin: 20px 0;
+            border: 2px solid #ccc;
+        }
+        .button-group {
+            margin: 20px 0;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 0 10px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Live Camera Feed</h1>
+    <div class="button-group">
+        <a href="/"><button>Back to Control Panel</button></a>
+    </div>
+    <div>
+        <img id="live-feed" src="" alt="Live feed loading..." />
+    </div>
+
+    <script>
+        function updateLiveFeed() {
+            const img = document.getElementById('live-feed');
+            img.src = '/capture?' + new Date().getTime();
+        }
+
+        // Update live feed every second
+        updateLiveFeed();
+        setInterval(updateLiveFeed, 1000);
+    </script>
+</body>
+</html>
