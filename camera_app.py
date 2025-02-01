@@ -46,17 +46,17 @@ def initialize_camera():
                     logger.error("sudo apt-get update")
                     logger.error("sudo apt-get install -y python3-picamera2")
                     raise
-
+                
                 # Check for camera access
                 try:
                     # Initialize camera with detailed logging
                     camera = Picamera2()
                     logger.info("Created Picamera2 instance")
-
+                    
                     # List available cameras
                     cameras = camera.global_camera_info()
                     logger.info(f"Available cameras: {cameras}")
-
+                    
                     # Configure camera
                     camera_config = camera.create_still_configuration(
                         main={"size": (640, 480)},
@@ -67,7 +67,7 @@ def initialize_camera():
 
                     camera.configure(camera_config)
                     logger.info("Applied camera configuration")
-
+                    
                     camera.start()
                     logger.info("Started camera")
 
@@ -266,4 +266,4 @@ def live_feed():
 if __name__ == '__main__':
     # Disable debug mode and reloader to prevent camera initialization conflicts
     logger.info("Starting Flask server on 0.0.0.0:5000")
-    app.run(host='0.0.0.0', port=5000, debug=False, use_reloader=False)
+    app.run(host='0.0.0.0', port=5000, debug=False, use_reloader=False, threaded=True)
