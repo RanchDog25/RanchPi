@@ -105,3 +105,7 @@ This project uses two different authentication methods:
 - Git
 - SSH access to GitHub (for Pi only)
 - Raspberry Pi OS Lite (64-bit)
+
+## Project Purpose
+Raspberry Pi dev for Ranch Cams
+Travis and Jackson 2/1/25, making Ranching Intelligence history
