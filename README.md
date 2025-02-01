@@ -2,6 +2,11 @@
 
 This repository contains a Python development environment setup for Raspberry Pi with GitHub integration.
 
+## Latest Update (February 1, 2025)
+- Configured development environment with Replit integration
+- Set up secure HTTPS connection for Replit→GitHub workflow
+- Established SSH-based workflow for Raspberry Pi
+
 ## Setup Instructions
 
 ### 1. Initial Setup on Development Machine (Replit)
