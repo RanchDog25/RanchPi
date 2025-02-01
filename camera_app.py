@@ -29,10 +29,16 @@ def initialize_camera():
                 from picamera2 import Picamera2
                 logger.info("Successfully imported picamera2")
                 camera = Picamera2()
-                camera_config = camera.create_still_configuration(main={"size": (1920, 1080)})
+                # Configure with lower resolution for better performance
+                camera_config = camera.create_still_configuration(
+                    main={"size": (640, 480)},
+                    lores={"size": (320, 240)},
+                    display="lores"
+                )
                 camera.configure(camera_config)
                 logger.info("Created and configured Picamera2 instance")
                 camera.start()
+                time.sleep(2)  # Give camera time to initialize
                 logger.info("Started Picamera2")
                 return camera
             except ImportError as e:
@@ -140,7 +146,7 @@ def capture_image():
         else:
             # For Picamera2
             try:
-                # Capture directly using the configured settings
+                # Capture using the current configuration
                 camera.capture_file("latest.jpg")
                 logger.info("Successfully captured image with Picamera2")
             except Exception as e:
