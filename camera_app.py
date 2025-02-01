@@ -21,7 +21,15 @@ app = Flask(__name__,
     template_folder='templates',  # Explicitly set template folder
     static_folder='static'       # Explicitly set static folder
 )
-CORS(app)  # Enable CORS for all routes
+
+# Configure CORS for external access
+CORS(app, resources={
+    r"/*": {
+        "origins": "*",
+        "methods": ["GET", "POST", "OPTIONS"],
+        "allow_headers": ["Content-Type"]
+    }
+})
 
 # Disable Flask debug mode
 app.debug = False

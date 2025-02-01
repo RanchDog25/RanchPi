@@ -6,6 +6,37 @@ This repository contains a Python development environment setup for Raspberry Pi
 - Configured development environment with Replit integration
 - Set up secure HTTPS connection for Replit→GitHub workflow
 - Established SSH-based workflow for Raspberry Pi
+- Added external access configuration
+
+## External Access Setup
+
+To access your RanchPi camera from outside your local network:
+
+1. **Configure Port Forwarding**:
+   - Access your router's admin panel (typically http://192.168.1.1)
+   - Navigate to Port Forwarding settings
+   - Add a new rule:
+     * Internal IP: 192.168.1.135 (your Raspberry Pi's IP)
+     * Internal Port: 5000
+     * External Port: 80 (or your preferred port)
+     * Protocol: TCP
+
+2. **Set Up Dynamic DNS (Optional but recommended)**:
+   - Sign up for a free Dynamic DNS service (e.g., No-IP, DuckDNS)
+   - Install the DDNS client on your Raspberry Pi:
+     ```bash
+     sudo apt install ddclient
+     ```
+   - Configure the client with your DDNS provider details
+
+3. **Access Your Camera**:
+   - Local network: http://192.168.1.135:5000
+   - External network: http://your-ddns-domain.com:80 (or your configured port)
+
+**Important Security Notes**:
+- Always use strong passwords and keep your Raspberry Pi updated
+- Consider setting up HTTPS for secure external access
+- Regularly check for and install security updates
 
 ## Setup Instructions
 
