@@ -7,6 +7,7 @@ import os
 from PIL import Image, ImageDraw
 from flask import Flask, render_template, send_file, jsonify, request
 from flask_cors import CORS
+from werkzeug.serving import is_running_from_reloader
 
 # Configure logging with more detail
 logging.basicConfig(
@@ -18,12 +19,24 @@ logger = logging.getLogger(__name__)
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
 
+# Disable Flask development features
+app.env = 'production'  # Force production mode
+app.debug = False      # Ensure debug is off
+
 # Ensure the images directory exists
 UPLOAD_FOLDER = Path("static/images")
 UPLOAD_FOLDER.mkdir(parents=True, exist_ok=True)
 
+# Global camera instance
+camera = None
+
 def initialize_camera():
     """Initialize and configure the camera based on environment"""
+    global camera
+    if is_running_from_reloader():
+        logger.info("Skipping camera initialization in reloader process")
+        return MockCamera()
+
     try:
         machine = platform.machine()
         logger.info(f"Detected platform machine: {machine}")
@@ -35,81 +48,58 @@ def initialize_camera():
         if is_raspberry_pi:
             logger.info("Detected ARM architecture (Raspberry Pi hardware)")
             try:
-                # Try importing picamera2
-                try:
-                    from picamera2 import Picamera2
-                    logger.info("Successfully imported picamera2")
-                except ImportError:
-                    logger.error("picamera2 not found. Please install:")
-                    logger.error("sudo apt-get remove -y libcamera0")
-                    logger.error("sudo apt-get autoremove -y")
-                    logger.error("sudo apt-get update")
-                    logger.error("sudo apt-get install -y python3-picamera2")
-                    raise
-                
-                # Check for camera access
-                try:
-                    # Initialize camera with detailed logging
-                    camera = Picamera2()
-                    logger.info("Created Picamera2 instance")
-                    
-                    # List available cameras
-                    cameras = camera.global_camera_info()
-                    logger.info(f"Available cameras: {cameras}")
-                    
-                    # Configure camera
-                    camera_config = camera.create_still_configuration(
-                        main={"size": (640, 480)},
-                        lores={"size": (320, 240)},
-                        display="lores"
-                    )
-                    logger.info(f"Created camera configuration: {camera_config}")
-
-                    camera.configure(camera_config)
-                    logger.info("Applied camera configuration")
-                    
-                    camera.start()
-                    logger.info("Started camera")
-
-                    time.sleep(2)  # Give camera time to initialize
-
-                    # Test capture to verify camera is working
-                    try:
-                        camera.capture_file("test.jpg")
-                        logger.info("Successfully performed test capture")
-                        os.remove("test.jpg")  # Clean up test file
-                    except Exception as capture_error:
-                        logger.error(f"Test capture failed: {capture_error}")
-                        raise
-
-                    return camera
-
-                except Exception as camera_error:
-                    logger.error(f"Error accessing camera hardware: {camera_error}")
-                    logger.info("Please ensure camera is enabled in raspi-config")
-                    raise
-
+                from picamera2 import Picamera2
+                logger.info("Successfully imported picamera2")
             except ImportError as e:
-                logger.error(f"Failed to import required modules: {e}")
-                logger.info("Please install required packages:")
-                logger.info("sudo apt-get remove -y libcamera0")
-                logger.info("sudo apt-get autoremove -y")
-                logger.info("sudo apt-get update")
-                logger.info("sudo apt-get install -y python3-picamera2")
-                logger.info("Falling back to mock camera")
+                logger.error(f"Failed to import picamera2: {e}")
                 return MockCamera()
-            except Exception as e:
-                logger.error(f"Error initializing Raspberry Pi camera: {e}")
-                logger.info("Falling back to mock camera")
-                return MockCamera()
+
+            # Create Picamera2 instance
+            camera = Picamera2()
+            logger.info("Created Picamera2 instance")
+
+            # Create camera configuration
+            camera_config = camera.create_still_configuration(
+                main={"size": (640, 480)},
+                lores={"size": (320, 240)},
+                display="lores"
+            )
+            logger.info(f"Created camera configuration: {camera_config}")
+
+            camera.configure(camera_config)
+            logger.info("Applied camera configuration")
+
+            camera.start()
+            logger.info("Started camera")
+
+            time.sleep(2)  # Give camera time to initialize
+
+            # Test capture
+            camera.capture_file("test.jpg")
+            logger.info("Successfully performed test capture")
+            os.remove("test.jpg")  # Clean up test file
+
+            return camera
+
         else:
             logger.info(f"Not on Raspberry Pi (machine: {machine}), using mock camera")
-            camera = MockCamera()
-            camera.start()
-            return camera
+            return MockCamera()
     except Exception as e:
         logger.error(f"Unexpected error in camera initialization: {e}")
-        return None
+        return MockCamera()
+
+def cleanup():
+    """Cleanup camera resources on shutdown"""
+    global camera
+    if camera:
+        try:
+            if hasattr(camera, 'stop'):
+                camera.stop()
+            if hasattr(camera, 'close'):
+                camera.close()
+            logger.info("Camera resources cleaned up")
+        except Exception as e:
+            logger.error(f"Error cleaning up camera: {e}")
 
 class MockCamera:
     """Mock camera for development environment"""
@@ -172,8 +162,13 @@ class MockCamera:
             logger.error(f"Mock camera: error updating settings: {e}")
             raise
 
-# Initialize camera globally
-camera = initialize_camera()
+# Initialize camera only in main process
+if not is_running_from_reloader():
+    camera = initialize_camera()
+    import atexit
+    atexit.register(cleanup)
+else:
+    camera = MockCamera()
 
 @app.route('/')
 def index():
@@ -255,7 +250,6 @@ def camera_settings():
         except Exception as e:
             logger.error(f"Error getting settings: {e}")
             return jsonify({'status': 'error', 'message': str(e)}), 500
-
 
 @app.route('/live')
 def live_feed():
