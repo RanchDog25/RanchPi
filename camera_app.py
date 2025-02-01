@@ -35,9 +35,23 @@ def initialize_camera():
         if is_raspberry_pi:
             logger.info("Detected ARM architecture (Raspberry Pi hardware)")
             try:
+                # Try importing required modules
+                try:
+                    import libcamera
+                    logger.info("Successfully imported libcamera")
+                except ImportError:
+                    logger.error("libcamera not found. Please install required packages:")
+                    logger.error("sudo apt-get install -y python3-libcamera libcamera0")
+                    raise
+
                 # Try importing picamera2
-                from picamera2 import Picamera2
-                logger.info("Successfully imported picamera2")
+                try:
+                    from picamera2 import Picamera2
+                    logger.info("Successfully imported picamera2")
+                except ImportError:
+                    logger.error("picamera2 not found. Please install:")
+                    logger.error("sudo apt-get install -y python3-picamera2")
+                    raise
 
                 # Check for camera access
                 try:
@@ -82,8 +96,9 @@ def initialize_camera():
                     raise
 
             except ImportError as e:
-                logger.error(f"Failed to import picamera2: {e}")
-                logger.info("Please install required packages: sudo apt-get install -y python3-libcamera python3-picamera2")
+                logger.error(f"Failed to import required modules: {e}")
+                logger.info("Please install required packages:")
+                logger.info("sudo apt-get install -y python3-libcamera libcamera0 python3-picamera2")
                 logger.info("Falling back to mock camera")
                 return MockCamera()
             except Exception as e:
