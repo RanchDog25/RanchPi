@@ -20,6 +20,36 @@ CORS(app)  # Enable CORS for all routes
 UPLOAD_FOLDER = Path("static/images")
 UPLOAD_FOLDER.mkdir(parents=True, exist_ok=True)
 
+def initialize_camera():
+    """Initialize and configure the camera based on environment"""
+    try:
+        if platform.machine().startswith('arm'):  # Running on Raspberry Pi
+            logger.info("Detected Raspberry Pi hardware")
+            try:
+                from picamera2 import Picamera2
+                logger.info("Successfully imported picamera2")
+                camera = Picamera2()
+                logger.info("Created Picamera2 instance")
+                camera.start()
+                logger.info("Started Picamera2")
+                return camera
+            except ImportError as e:
+                logger.error(f"Failed to import picamera2: {e}")
+                logger.info("Falling back to mock camera")
+                return MockCamera()
+            except Exception as e:
+                logger.error(f"Error initializing Raspberry Pi camera: {e}")
+                logger.info("Falling back to mock camera")
+                return MockCamera()
+        else:  # Development environment
+            logger.info("Not on Raspberry Pi, using mock camera")
+            camera = MockCamera()
+            camera.start()
+            return camera
+    except Exception as e:
+        logger.error(f"Unexpected error in camera initialization: {e}")
+        return None
+
 class MockCamera:
     """Mock camera for development environment"""
     def __init__(self):
@@ -30,59 +60,37 @@ class MockCamera:
             'contrast': 50,
             'resolution': f"{self.width}x{self.height}"
         }
+        self.is_running = False
+        logger.info("Mock camera initialized")
 
     def start(self):
         self.is_running = True
-        logger.info("Camera started")
+        logger.info("Mock camera started")
 
     def stop(self):
         self.is_running = False
-        logger.info("Camera stopped")
+        logger.info("Mock camera stopped")
 
     def capture_file(self, filename):
-        # Create a test image
-        img = Image.new('RGB', (self.width, self.height), color='gray')
-        draw = ImageDraw.Draw(img)
+        try:
+            # Create a test image
+            img = Image.new('RGB', (self.width, self.height), color='gray')
+            draw = ImageDraw.Draw(img)
 
-        # Add some text and timestamp
-        timestamp = time.strftime("%Y-%m-%d %H:%M:%S")
-        draw.text((self.width//2 - 100, self.height//2), 
-                 'Development Mode', fill='white')
-        draw.text((10, self.height - 30), 
-                 timestamp, fill='white')
+            # Add some text and timestamp
+            timestamp = time.strftime("%Y-%m-%d %H:%M:%S")
+            draw.text((self.width//2 - 100, self.height//2), 
+                     'Development Mode', fill='white')
+            draw.text((10, self.height - 30), 
+                     timestamp, fill='white')
 
-        # Save the image
-        img.save(filename)
-        logger.info(f"Captured image saved to {filename}")
-
-    def get_status(self):
-        return {
-            'running': getattr(self, 'is_running', False),
-            'settings': self.settings
-        }
-
-    def update_settings(self, new_settings):
-        self.settings.update(new_settings)
-        logger.info(f"Camera settings updated: {new_settings}")
-        return self.settings
-
-def initialize_camera():
-    """Initialize and configure the camera based on environment"""
-    try:
-        if platform.machine().startswith('arm'):  # Running on Raspberry Pi
-            from picamera2 import Picamera2
-            logger.info("Initializing Raspberry Pi camera")
-            camera = Picamera2()
-        else:  # Development environment
-            logger.info("Initializing mock camera for development")
-            camera = MockCamera()
-
-        camera.start()
-        time.sleep(1)  # Brief pause to ensure camera is ready
-        return camera
-    except Exception as e:
-        logger.error(f"Error initializing camera: {e}")
-        return None
+            # Save the image
+            img.save(filename)
+            logger.info(f"Mock camera: captured image saved to {filename}")
+            return True
+        except Exception as e:
+            logger.error(f"Mock camera: error capturing image: {e}")
+            return False
 
 # Initialize camera globally
 camera = initialize_camera()
@@ -98,20 +106,34 @@ def capture_image():
     """Capture an image and return it."""
     if not camera:
         logger.error("Camera not initialized")
-        return "Camera not initialized", 500
+        return jsonify({'status': 'error', 'message': 'Camera not initialized'}), 500
 
     try:
-        # Capture image to memory
+        logger.info("Attempting to capture image")
         output = io.BytesIO()
-        camera.capture_file("latest.jpg")
+
+        if isinstance(camera, MockCamera):
+            success = camera.capture_file("latest.jpg")
+            if not success:
+                raise Exception("Failed to capture mock image")
+        else:
+            # For Picamera2
+            try:
+                capture_config = camera.create_still_configuration()
+                camera.switch_mode_and_capture_file(capture_config, "latest.jpg")
+                logger.info("Successfully captured image with Picamera2")
+            except Exception as e:
+                logger.error(f"Error capturing with Picamera2: {e}")
+                raise
+
         with open("latest.jpg", "rb") as f:
             output.write(f.read())
         output.seek(0)
-        logger.info("Image captured successfully")
+        logger.info("Image captured and prepared for sending")
         return send_file(output, mimetype='image/jpeg')
     except Exception as e:
-        logger.error(f"Error capturing image: {e}")
-        return str(e), 500
+        logger.error(f"Error in capture_image: {e}")
+        return jsonify({'status': 'error', 'message': str(e)}), 500
 
 @app.route('/status')
 def get_status():
