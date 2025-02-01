@@ -1,16 +1,18 @@
-from flask import Flask, render_template, send_file, jsonify, request
-from flask_cors import CORS
+import logging
+import platform
 import time
 from pathlib import Path
 import io
 import os
-import platform
 from PIL import Image, ImageDraw
-import json
-import logging
+from flask import Flask, render_template, send_file, jsonify, request
+from flask_cors import CORS
 
-# Configure logging
-logging.basicConfig(level=logging.INFO)
+# Configure logging with more detail
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
 logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
@@ -23,24 +25,51 @@ UPLOAD_FOLDER.mkdir(parents=True, exist_ok=True)
 def initialize_camera():
     """Initialize and configure the camera based on environment"""
     try:
-        if platform.machine().startswith('arm'):  # Running on Raspberry Pi
-            logger.info("Detected Raspberry Pi hardware")
+        machine = platform.machine()
+        logger.info(f"Detected platform machine: {machine}")
+
+        # Check for Raspberry Pi hardware
+        is_raspberry_pi = machine.startswith('arm') or machine.startswith('aarch64')
+        logger.info(f"Is Raspberry Pi? {is_raspberry_pi}")
+
+        if is_raspberry_pi:
+            logger.info("Detected ARM architecture (Raspberry Pi hardware)")
             try:
+                # Try importing picamera2
                 from picamera2 import Picamera2
                 logger.info("Successfully imported picamera2")
+
+                # Initialize camera
                 camera = Picamera2()
-                # Configure with lower resolution for better performance
+                logger.info("Created Picamera2 instance")
+
+                # Configure camera
                 camera_config = camera.create_still_configuration(
                     main={"size": (640, 480)},
                     lores={"size": (320, 240)},
                     display="lores"
                 )
+                logger.info(f"Created camera configuration: {camera_config}")
+
                 camera.configure(camera_config)
-                logger.info("Created and configured Picamera2 instance")
+                logger.info("Applied camera configuration")
+
                 camera.start()
+                logger.info("Started camera")
+
                 time.sleep(2)  # Give camera time to initialize
-                logger.info("Started Picamera2")
+
+                # Test capture to verify camera is working
+                try:
+                    camera.capture_file("test.jpg")
+                    logger.info("Successfully performed test capture")
+                    os.remove("test.jpg")  # Clean up test file
+                except Exception as capture_error:
+                    logger.error(f"Test capture failed: {capture_error}")
+                    raise
+
                 return camera
+
             except ImportError as e:
                 logger.error(f"Failed to import picamera2: {e}")
                 logger.info("Falling back to mock camera")
@@ -49,8 +78,8 @@ def initialize_camera():
                 logger.error(f"Error initializing Raspberry Pi camera: {e}")
                 logger.info("Falling back to mock camera")
                 return MockCamera()
-        else:  # Development environment
-            logger.info("Not on Raspberry Pi, using mock camera")
+        else:
+            logger.info(f"Not on Raspberry Pi (machine: {machine}), using mock camera")
             camera = MockCamera()
             camera.start()
             return camera
