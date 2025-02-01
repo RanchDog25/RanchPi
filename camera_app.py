@@ -5,7 +5,7 @@ from pathlib import Path
 import io
 import os
 from PIL import Image, ImageDraw
-from flask import Flask, render_template, send_file, jsonify, request
+from flask import Flask, render_template, send_file, jsonify, request, url_for
 from flask_cors import CORS
 from werkzeug.serving import is_running_from_reloader
 
@@ -16,7 +16,10 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-app = Flask(__name__)
+app = Flask(__name__, 
+    template_folder='templates',  # Explicitly set template folder
+    static_folder='static'       # Explicitly set static folder
+)
 CORS(app)  # Enable CORS for all routes
 
 # Disable Flask development features
@@ -185,28 +188,25 @@ def capture_image():
 
     try:
         logger.info("Attempting to capture image")
-        output = io.BytesIO()
+        timestamp = time.strftime("%Y%m%d-%H%M%S")
+        filename = f"latest_{timestamp}.jpg"
+        filepath = UPLOAD_FOLDER / filename
 
         if isinstance(camera, MockCamera):
-            success = camera.capture_file("latest.jpg")
+            success = camera.capture_file(str(filepath))
             if not success:
                 raise Exception("Failed to capture mock image")
         else:
             # For Picamera2
             try:
-                # Capture using the current configuration
-                camera.capture_file("latest.jpg")
-                logger.info("Successfully captured image with Picamera2")
+                camera.capture_file(str(filepath))
+                logger.info(f"Successfully captured image to {filepath}")
             except Exception as e:
                 logger.error(f"Error capturing with Picamera2: {e}")
                 raise
 
-        # Read the captured image and send it
-        with open("latest.jpg", "rb") as f:
-            output.write(f.read())
-        output.seek(0)
-        logger.info("Image captured and prepared for sending")
-        return send_file(output, mimetype='image/jpeg')
+        logger.info("Image captured successfully")
+        return send_file(str(filepath), mimetype='image/jpeg')
     except Exception as e:
         logger.error(f"Error in capture_image: {e}")
         return jsonify({'status': 'error', 'message': str(e)}), 500
