@@ -17,6 +17,8 @@ import json
 import asyncio
 import websockets
 from websocket_server import start_server, get_connected_devices
+import base64
+from PIL import Image
 
 # Configure logging with more detail
 logging.basicConfig(
@@ -168,6 +170,57 @@ class MockCamera:
             'running': self.is_running,
             'settings': self.settings
         }
+    
+    def get_frame_data(self):
+        """Capture frame and return base64 encoded data"""
+        buffer = io.BytesIO()
+        try:
+            # Create test pattern image
+            img = Image.new('RGB', (self.width, self.height), color='white')
+            draw = ImageDraw.Draw(img)
+
+            # Add colored stripes
+            stripe_height = self.height // 3
+            colors = ['red', 'green', 'blue']
+            for i, color in enumerate(colors):
+                draw.rectangle(
+                    [(0, i * stripe_height), (self.width, (i + 1) * stripe_height)],
+                    fill=color
+                )
+
+            # Add development mode indicator
+            text = "Development Mode"
+            draw.text(
+                (self.width//2 - 100, self.height//2),
+                text,
+                fill='white',
+                stroke_width=2,
+                stroke_fill='black'
+            )
+
+            # Add timestamp
+            timestamp = time.strftime("%Y-%m-%d %H:%M:%S")
+            draw.text(
+                (10, self.height - 30),
+                timestamp,
+                fill='white',
+                stroke_width=1,
+                stroke_fill='black'
+            )
+
+            # Apply settings
+            if self.settings['rotation'] != 0:
+                img = img.rotate(self.settings['rotation'])
+
+            # Save to buffer
+            img.save(buffer, format='JPEG', quality=85)
+            return base64.b64encode(buffer.getvalue()).decode('utf-8')
+
+        except Exception as e:
+            logger.error(f"Error capturing frame: {e}")
+            return None
+        finally:
+            buffer.close()
 
     def capture_file(self, filename):
         try:
@@ -248,6 +301,31 @@ class PiCamera2Wrapper:
         self.settings = CAMERA_SETTINGS.copy()
         self.is_running = True
         logger.info("PiCamera2Wrapper initialized with settings: %s", self.settings)
+    
+    def get_frame_data(self):
+        """Capture frame and return base64 encoded data"""
+        buffer = io.BytesIO()
+        try:
+            # Capture to memory
+            self.camera.capture_file(buffer, format='jpeg')
+            buffer.seek(0)
+
+            # Process with PIL if rotation needed
+            if self.settings['rotation'] != 0:
+                with Image.open(buffer) as img:
+                    img = img.rotate(self.settings['rotation'])
+                    buffer.seek(0)
+                    buffer.truncate()
+                    img.save(buffer, format='JPEG', quality=85)
+
+            buffer.seek(0)
+            return base64.b64encode(buffer.getvalue()).decode('utf-8')
+
+        except Exception as e:
+            logger.error(f"Error capturing frame: {e}")
+            return None
+        finally:
+            buffer.close()
 
     def capture_file(self, filename):
         try:
@@ -501,6 +579,14 @@ def list_devices():
     return jsonify({
         'status': 'ok',
         'data': devices
+    })
+
+@app.route('/stream/status')
+def stream_status():
+    """Get WebSocket stream server details"""
+    return jsonify({
+        'status': 'ok',
+        'stream_url': f'ws://{request.host.split(":")[0]}:6790'
     })
 
 # Modify main section to run both Flask and WebSocket server

@@ -1578,5 +1578,20 @@
     "timestamp": "2025-02-01T23:53:03.836402",
     "type": "manual",
     "size": 9239
+  },
+  "storage/images/2025_02/capture_20250201_235408.jpg": {
+    "timestamp": "2025-02-01T23:54:08.931916",
+    "type": "manual",
+    "size": 9230
+  },
+  "storage/images/2025_02/capture_20250201_235409.jpg": {
+    "timestamp": "2025-02-01T23:54:09.157501",
+    "type": "manual",
+    "size": 9226
+  },
+  "storage/images/2025_02/capture_20250201_235412.jpg": {
+    "timestamp": "2025-02-01T23:54:12.390481",
+    "type": "manual",
+    "size": 9231
   }
 }

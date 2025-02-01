@@ -57,6 +57,19 @@
             justify-content: center;
             overflow: hidden;
         }
+        #connection-status {
+            margin: 10px 0;
+            padding: 5px;
+            border-radius: 4px;
+        }
+        .connected {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .disconnected {
+            background-color: #f44336;
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -68,28 +81,57 @@
         <a href="/"><button>Back to Control Panel</button></a>
     </div>
 
+    <div id="connection-status" class="disconnected">
+        Connecting to camera...
+    </div>
+
     <div class="image-container">
-        <img id="live-feed" src="/capture" alt="Live feed loading..." class="rotate-0" />
+        <img id="live-feed" src="" alt="Live feed loading..." class="rotate-0" />
     </div>
 
     <script>
         let currentRotation = 0;
         let isRunning = true;
-        let updateInterval = null;
-        const REFRESH_INTERVAL = 5000; // 5 seconds
+        let ws = null;
 
-        function updateLiveFeed() {
-            if (!isRunning) return;
+        async function connectWebSocket() {
+            try {
+                // Get WebSocket server details
+                const response = await fetch('/stream/status');
+                const data = await response.json();
 
-            const img = document.getElementById('live-feed');
-            const timestamp = new Date().getTime();
+                if (data.status === 'ok') {
+                    ws = new WebSocket(data.stream_url);
 
-            // Create a new image object to preload
-            const newImg = new Image();
-            newImg.onload = function() {
-                img.src = this.src; // Only update once loaded
-            };
-            newImg.src = '/capture?' + timestamp;
+                    ws.onopen = () => {
+                        document.getElementById('connection-status').textContent = 'Connected to camera';
+                        document.getElementById('connection-status').className = 'connected';
+                    };
+
+                    ws.onclose = () => {
+                        document.getElementById('connection-status').textContent = 'Disconnected from camera';
+                        document.getElementById('connection-status').className = 'disconnected';
+                        // Try to reconnect after 5 seconds
+                        setTimeout(connectWebSocket, 5000);
+                    };
+
+                    ws.onmessage = (event) => {
+                        if (!isRunning) return;
+
+                        const data = JSON.parse(event.data);
+                        if (data.type === 'camera_frame') {
+                            const img = document.getElementById('live-feed');
+                            img.src = `data:image/jpeg;base64,${data.data}`;
+                        }
+                    };
+                }
+            } catch (error) {
+                console.error('Error connecting to WebSocket:', error);
+                document.getElementById('connection-status').textContent = 'Connection error';
+                document.getElementById('connection-status').className = 'disconnected';
+                // Try to reconnect after 5 seconds
+                setTimeout(connectWebSocket, 5000);
+            }
         }
 
         function toggleFeed() {
@@ -99,23 +141,10 @@
             if (isRunning) {
                 button.textContent = 'Pause Feed';
                 button.classList.remove('pause');
-                updateLiveFeed(); // Immediate update
-                startUpdateInterval();
             } else {
                 button.textContent = 'Resume Feed';
                 button.classList.add('pause');
-                if (updateInterval) {
-                    clearInterval(updateInterval);
-                    updateInterval = null;
-                }
             }
-        }
-
-        function startUpdateInterval() {
-            if (updateInterval) {
-                clearInterval(updateInterval);
-            }
-            updateInterval = setInterval(updateLiveFeed, REFRESH_INTERVAL);
         }
 
         function rotateCamera() {
@@ -138,8 +167,7 @@
         }
 
         // Initial setup
-        updateLiveFeed();
-        startUpdateInterval();
+        connectWebSocket();
     </script>
 </body>
 </html>
