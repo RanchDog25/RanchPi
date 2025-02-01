@@ -1,0 +1,62 @@
+^C2025-02-01 16:15:31,283 - picamera2.picamera2 - INFO - Camera stopped
+2025-02-01 16:15:31,485 - picamera2.picamera2 - INFO - Camera closed successfully.
+(venv) admin@ranchcam1:~/RanchPi $ git pull
+remote: Enumerating objects: 41, done.
+remote: Counting objects: 100% (41/41), done.
+remote: Compressing objects: 100% (23/23), done.
+remote: Total 38 (delta 26), reused 27 (delta 15), pack-reused 0 (from 0)
+Unpacking objects: 100% (38/38), 17.47 KiB | 852.00 KiB/s, done.
+From github.com:RanchDog25/RanchPi
+   f43b3cb..7b03d60  main       -> origin/main
+Updating f43b3cb..7b03d60
+Fast-forward
+ ...ra2-INFO-Camera-stopped-2025-02-01-16-01-43-175-p-1738447381075.txt |  55 +++++++++
+ ...ra2-INFO-Camera-stopped-2025-02-01-16-07-03-285-p-1738447671748.txt |  55 +++++++++
+ ...-picamera2-Looking-in-indexes-https-pypi-org-simp-1738443913173.txt |  58 +++++++++
+ ...Status-retrieved-successfully-running-False-setti-1738445190824.txt | 205 ++++++++++++++++++++++++++++++++
+ ...-Restarting-with-stat-2025-02-01-16-02-40-713-mai-1738447514125.txt |  94 +++++++++++++++
+ ...ssfully-running-True-settings-brightness-50-contr-1738443615402.txt |  50 ++++++++
+ ...-detecting-your-Raspberry-Pi-loading-picamera2-an-1738447194716.txt |  49 ++++++++
+ camera_app.py                                                          |  92 ++++++++------
+ 8 files changed, 624 insertions(+), 34 deletions(-)
+ create mode 100644 attached_assets/Pasted--C2025-02-01-16-01-42-967-picamera2-picamera2-INFO-Camera-stopped-2025-02-01-16-01-43-175-p-1738447381075.txt
+ create mode 100644 attached_assets/Pasted--C2025-02-01-16-07-03-083-picamera2-picamera2-INFO-Camera-stopped-2025-02-01-16-07-03-285-p-1738447671748.txt
+ create mode 100644 attached_assets/Pasted--venv-admin-ranchcam1-RanchPi-pip3-install-picamera2-Looking-in-indexes-https-pypi-org-simp-1738443913173.txt
+ create mode 100644 attached_assets/Pasted-2025-02-01-15-18-25-561-main-INFO-Status-retrieved-successfully-running-False-setti-1738445190824.txt
+ create mode 100644 attached_assets/Pasted-2025-02-01-16-02-40-470-werkzeug-INFO-Restarting-with-stat-2025-02-01-16-02-40-713-mai-1738447514125.txt
+ create mode 100644 attached_assets/Pasted-INFO-main-Status-retrieved-successfully-running-True-settings-brightness-50-contr-1738443615402.txt
+ create mode 100644 attached_assets/Pasted-The-logs-show-that-the-system-is-now-successfully-detecting-your-Raspberry-Pi-loading-picamera2-an-1738447194716.txt
+(venv) admin@ranchcam1:~/RanchPi $ sudo pkill -f libcamera
+(venv) admin@ranchcam1:~/RanchPi $ sudo /home/admin/RanchPi/venv/bin/python3 camera_app.py
+2025-02-01 16:15:58,161 - __main__ - INFO - Detected platform machine: aarch64
+2025-02-01 16:15:58,161 - __main__ - INFO - Is Raspberry Pi? True
+2025-02-01 16:15:58,162 - __main__ - INFO - Detected ARM architecture (Raspberry Pi hardware)
+2025-02-01 16:15:58,471 - __main__ - INFO - Successfully imported picamera2
+[0:12:32.273325545] [930]  INFO Camera camera_manager.cpp:327 libcamera v0.4.0+50-83cb8101
+[0:12:32.284524749] [933]  INFO RPI pisp.cpp:720 libpisp version v1.1.0 e7974a156008 27-01-2025 (21:50:51)
+[0:12:32.298769927] [933]  INFO RPI pisp.cpp:1179 Registered camera /base/axi/pcie@120000/rp1/i2c@88000/imx477@1a to CFE device /dev/media0 and ISP device /dev/media1 using PiSP variant BCM2712_C0
+2025-02-01 16:15:58,499 - picamera2.picamera2 - INFO - Initialization successful.
+2025-02-01 16:15:58,499 - picamera2.picamera2 - INFO - Camera now open.
+2025-02-01 16:15:58,501 - picamera2 - INFO - Failed to open /dev/dma_heap/vidbuf_cached
+2025-02-01 16:15:58,501 - __main__ - INFO - Created Picamera2 instance
+2025-02-01 16:15:58,501 - __main__ - INFO - Available cameras: [{'Model': 'imx477', 'Location': 2, 'Rotation': 180, 'Id': '/base/axi/pcie@120000/rp1/i2c@88000/imx477@1a', 'Num': 0}]
+2025-02-01 16:15:58,502 - __main__ - INFO - Created camera configuration: {'use_case': 'still', 'transform': <libcamera.Transform 'identity'>, 'colour_space': <libcamera.ColorSpace 'sYCC'>, 'buffer_count': 1, 'queue': True, 'main': {'format': 'BGR888', 'size': (640, 480), 'preserve_ar': True}, 'lores': {'format': 'YUV420', 'size': (320, 240), 'preserve_ar': False}, 'raw': {'format': 'SRGGB12_CSI2P', 'size': (640, 480)}, 'controls': {'NoiseReductionMode': <NoiseReductionModeEnum.HighQuality: 2>, 'FrameDurationLimits': (100, 1000000000)}, 'sensor': {}, 'display': 'lores', 'encode': None}
+2025-02-01 16:15:58,503 - picamera2.picamera2 - INFO - Camera configuration has been adjusted!
+[0:12:32.304945079] [930]  INFO Camera camera.cpp:1202 configuring streams: (0) 640x480-BGR888 (1) 320x240-YUV420 (2) 2028x1520-BGGR_PISP_COMP1
+[0:12:32.305123633] [933]  INFO RPI pisp.cpp:1484 Sensor: /base/axi/pcie@120000/rp1/i2c@88000/imx477@1a - Selected sensor format: 2028x1520-SBGGR12_1X12 - Selected CFE format: 2028x1520-PC1B
+2025-02-01 16:15:58,504 - picamera2.picamera2 - INFO - Configuration successful!
+2025-02-01 16:15:58,506 - __main__ - INFO - Applied camera configuration
+2025-02-01 16:15:59,051 - picamera2.picamera2 - INFO - Camera started
+2025-02-01 16:15:59,051 - __main__ - INFO - Started camera
+2025-02-01 16:16:01,098 - picamera2.request - INFO - Saved <picamera2.request.Helpers object at 0x7ffefdccf7d0> to file test.jpg.
+2025-02-01 16:16:01,098 - picamera2.request - INFO - Time taken for encode: 43.593233000024156 ms.
+2025-02-01 16:16:01,099 - __main__ - INFO - Successfully performed test capture
+2025-02-01 16:16:01,101 - __main__ - INFO - Starting Flask server on 0.0.0.0:5000
+ * Serving Flask app 'camera_app'
+ * Debug mode: off
+2025-02-01 16:16:01,106 - werkzeug - INFO - WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://192.168.1.136:5000
+2025-02-01 16:16:01,106 - werkzeug - INFO - Press CTRL+C to quit
+
