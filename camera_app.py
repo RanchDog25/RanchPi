@@ -71,7 +71,7 @@ class MockCamera:
             band_height = self.height // len(colors)
             for i, color in enumerate(colors):
                 draw.rectangle(
-                    [0, i * band_height, self.width, (i + 1) * band_height],
+                    (0, i * band_height, self.width, (i + 1) * band_height),
                     fill=color,
                     outline=None
                 )
@@ -117,32 +117,35 @@ class MockCamera:
 
 class PiCamera2Wrapper:
     """Wrapper for PiCamera2 to handle rotation consistently"""
-    def __init__(self, camera):
-        self.camera = camera
+    def __init__(self, picam):
+        self.camera = picam
         self.settings = CAMERA_SETTINGS.copy()
         self.is_running = True
+        logger.info("PiCamera2Wrapper initialized with settings: %s", self.settings)
 
     def capture_file(self, filename):
-        # Apply rotation using EXIF orientation
-        current_rotation = self.settings.get('rotation', 0)
-        if current_rotation != 0:
-            try:
-                # Capture to memory first
-                stream = io.BytesIO()
-                self.camera.capture_file(stream, format='jpeg')
-                stream.seek(0)
+        try:
+            # Always capture to memory first for consistent rotation handling
+            stream = io.BytesIO()
+            self.camera.capture_file(stream, format='jpeg')
+            stream.seek(0)
 
-                # Open with PIL and rotate
-                with Image.open(stream) as img:
-                    rotated = img.rotate(current_rotation, expand=True)
-                    rotated.save(filename, 'JPEG', quality=85)
-                logger.info(f"Captured and rotated image saved to {filename}")
-            except Exception as e:
-                logger.error(f"Error rotating image: {e}")
-                # Fallback to direct capture if rotation fails
-                self.camera.capture_file(filename)
-        else:
+            # Open with PIL for rotation
+            with Image.open(stream) as img:
+                # Apply rotation if needed
+                if self.settings['rotation'] != 0:
+                    logger.info(f"Rotating image by {self.settings['rotation']} degrees")
+                    img = img.rotate(self.settings['rotation'])
+
+                # Save the final image
+                img.save(filename, 'JPEG', quality=85)
+                logger.info(f"Captured and saved image to {filename}")
+
+        except Exception as e:
+            logger.error(f"Error in PiCamera capture: {e}")
+            # Fallback to direct capture if rotation fails
             self.camera.capture_file(filename)
+            logger.info("Fallback: Direct capture successful")
 
     def get_status(self):
         return {
