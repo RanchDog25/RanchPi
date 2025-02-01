@@ -29,7 +29,9 @@ def initialize_camera():
                 from picamera2 import Picamera2
                 logger.info("Successfully imported picamera2")
                 camera = Picamera2()
-                logger.info("Created Picamera2 instance")
+                camera_config = camera.create_still_configuration(main={"size": (1920, 1080)})
+                camera.configure(camera_config)
+                logger.info("Created and configured Picamera2 instance")
                 camera.start()
                 logger.info("Started Picamera2")
                 return camera
@@ -119,13 +121,14 @@ def capture_image():
         else:
             # For Picamera2
             try:
-                capture_config = camera.create_still_configuration()
-                camera.switch_mode_and_capture_file(capture_config, "latest.jpg")
+                # Capture directly using the configured settings
+                camera.capture_file("latest.jpg")
                 logger.info("Successfully captured image with Picamera2")
             except Exception as e:
                 logger.error(f"Error capturing with Picamera2: {e}")
                 raise
 
+        # Read the captured image and send it
         with open("latest.jpg", "rb") as f:
             output.write(f.read())
         output.seek(0)
