@@ -1593,5 +1593,10 @@
     "timestamp": "2025-02-01T23:54:12.390481",
     "type": "manual",
     "size": 9231
+  },
+  "storage/images/2025_02/capture_20250201_235624.jpg": {
+    "timestamp": "2025-02-01T23:56:24.919045",
+    "type": "manual",
+    "size": 9247
   }
 }
