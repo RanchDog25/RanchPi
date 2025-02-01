@@ -14,6 +14,7 @@
             max-width: 100%;
             margin: 20px 0;
             border: 2px solid #ccc;
+            transition: transform 0.3s ease;
         }
         .button-group {
             margin: 20px 0;
@@ -31,15 +32,20 @@
         button:hover {
             background-color: #45a049;
         }
+        .rotate-0 { transform: rotate(0deg); }
+        .rotate-90 { transform: rotate(90deg); }
+        .rotate-180 { transform: rotate(180deg); }
+        .rotate-270 { transform: rotate(270deg); }
     </style>
 </head>
 <body>
     <h1>Live Camera Feed</h1>
     <div class="button-group">
+        <button onclick="rotateCamera()">Rotate View</button>
         <a href="/"><button>Back to Control Panel</button></a>
     </div>
     <div>
-        <img id="live-feed" src="/capture" alt="Live feed loading..." />
+        <img id="live-feed" src="/capture" alt="Live feed loading..." class="rotate-0" />
     </div>
 
     <script>
@@ -47,6 +53,26 @@
             const img = document.getElementById('live-feed');
             // Add timestamp to prevent caching
             img.src = '/capture?' + new Date().getTime();
+        }
+
+        function rotateCamera() {
+            fetch('/rotate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'ok') {
+                    const img = document.getElementById('live-feed');
+                    // Remove any existing rotation classes
+                    img.classList.remove('rotate-0', 'rotate-90', 'rotate-180', 'rotate-270');
+                    // Add the new rotation class
+                    img.classList.add(`rotate-${data.data.rotation}`);
+                }
+            })
+            .catch(error => console.error('Error:', error));
         }
 
         // Update live feed every second

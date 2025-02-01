@@ -1,5 +1,6 @@
 {pkgs}: {
   deps = [
+    pkgs.libcamera
     pkgs.zlib
     pkgs.tk
     pkgs.tcl

@@ -8,6 +8,7 @@ from PIL import Image, ImageDraw
 from flask import Flask, render_template, send_file, jsonify, request, url_for
 from flask_cors import CORS
 from werkzeug.serving import is_running_from_reloader
+import libcamera
 
 # Configure logging with more detail
 logging.basicConfig(
@@ -112,7 +113,8 @@ class MockCamera:
         self.settings = {
             'brightness': 50,
             'contrast': 50,
-            'resolution': f"{self.width}x{self.height}"
+            'resolution': f"{self.width}x{self.height}",
+            'rotation': 0  # Add rotation setting
         }
         self.is_running = False
         logger.info("Mock camera initialized")
@@ -159,6 +161,9 @@ class MockCamera:
             for key, value in new_settings.items():
                 if key in self.settings:
                     self.settings[key] = value
+                    if key == 'rotation':
+                        # Normalize rotation to 0, 90, 180, or 270
+                        self.settings['rotation'] = value % 360
             logger.info(f"Mock camera: settings updated to {self.settings}")
             return self.settings
         except Exception as e:
@@ -250,6 +255,37 @@ def camera_settings():
         except Exception as e:
             logger.error(f"Error getting settings: {e}")
             return jsonify({'status': 'error', 'message': str(e)}), 500
+            
+@app.route('/rotate', methods=['POST'])
+def rotate_camera():
+    """Rotate the camera view 90 degrees clockwise."""
+    if not camera:
+        logger.error("Camera not initialized")
+        return jsonify({'status': 'error', 'message': 'Camera not initialized'}), 500
+
+    try:
+        current_rotation = camera.get_status()['settings'].get('rotation', 0)
+        new_rotation = (current_rotation + 90) % 360  # Increment by 90 degrees
+
+        if isinstance(camera, MockCamera):
+            camera.update_settings({'rotation': new_rotation})
+        else:
+            # For real Picamera2, update the transform
+            camera.configure(camera.create_still_configuration(
+                main={"size": (640, 480)},
+                lores={"size": (320, 240)},
+                display="lores",
+                transform=libcamera.Transform(rotation=new_rotation)
+            ))
+            logger.info(f"Updated camera rotation to {new_rotation} degrees")
+
+        return jsonify({
+            'status': 'ok',
+            'data': {'rotation': new_rotation}
+        })
+    except Exception as e:
+        logger.error(f"Error rotating camera: {e}")
+        return jsonify({'status': 'error', 'message': str(e)}), 500
 
 @app.route('/live')
 def live_feed():
