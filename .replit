@@ -57,7 +57,7 @@ task = "packager.installForAll"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "python3 git_utils.py push \"Updated security configuration and documentation\""
+args = "python3 git_utils.py push \"Fixed camera rotation functionality for both development and production environments\""
 
 [[workflows.workflow]]
 name = "Generate SSH Key"
