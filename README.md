@@ -11,7 +11,7 @@ This repository contains a Python development environment setup for Raspberry Pi
 
 ### 1. Initial Setup on Development Machine (Replit)
 
-1. Clone this repository using HTTPS:
+1. Clone this repository:
    ```bash
    git clone https://github.com/RanchDog25/RanchPi.git
    cd RanchPi
@@ -21,7 +21,7 @@ This repository contains a Python development environment setup for Raspberry Pi
    ```bash
    ./configure_git.sh
    ```
-   This will set up your Git credentials for pushing changes from Replit.
+   This script configures Git with your credentials. Authentication with GitHub is handled securely through environment variables.
 
 ### 2. Usage
 
@@ -79,6 +79,18 @@ A basic sample project is included in the `sample_project` directory to test the
    ```bash
    python3 git_utils.py pull
    ```
+
+## Authentication Methods
+
+This project uses two different authentication methods:
+
+1. **Replit → GitHub**: HTTPS with secure token authentication
+   - Uses environment variables for secure GitHub authentication
+   - No tokens are exposed in the code or configuration
+
+2. **Raspberry Pi → GitHub**: SSH-based authentication
+   - Uses SSH key pairs for secure authentication
+   - Required for secure communication from your Pi
 
 ## Development Workflow
 

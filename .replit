@@ -53,7 +53,7 @@ task = "packager.installForAll"
 
 [[workflows.workflow.tasks]]
 task = "shell.exec"
-args = "python3 git_utils.py push \"Updated README with latest development status and configuration\""
+args = "python3 git_utils.py push \"Updated security configuration and documentation\""
 
 [[workflows.workflow]]
 name = "Generate SSH Key"
