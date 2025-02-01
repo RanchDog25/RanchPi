@@ -55,7 +55,7 @@ class MockCamera:
         self.width = 640
         self.height = 480
         self.settings = CAMERA_SETTINGS.copy()
-        self.is_running = True  # Changed to True by default
+        self.is_running = True
         logger.info("Mock camera initialized with settings: %s", self.settings)
 
     def start(self):
@@ -67,7 +67,6 @@ class MockCamera:
         logger.info("Mock camera stopped")
 
     def get_status(self):
-        """Added missing get_status method"""
         return {
             'running': self.is_running,
             'settings': self.settings
@@ -75,36 +74,57 @@ class MockCamera:
 
     def capture_file(self, filename):
         try:
-            # Create a more interesting test pattern
-            gradient = np.linspace(0, 255, self.width, dtype=np.uint8)
-            pattern = np.tile(gradient, (self.height, 1))
-            img = Image.fromarray(pattern).convert('RGB')
-
-            # Add color bands
+            # Create a test pattern image
+            img = Image.new('RGB', (self.width, self.height), color='white')
             draw = ImageDraw.Draw(img)
+
+            # Add colored stripes
+            stripe_height = self.height // 3
             colors = ['red', 'green', 'blue']
-            band_height = self.height // len(colors)
             for i, color in enumerate(colors):
                 draw.rectangle(
-                    (0, i * band_height, self.width, (i + 1) * band_height),
-                    fill=color,
-                    outline=None
+                    [0, i * stripe_height, self.width, (i + 1) * stripe_height],
+                    fill=color
                 )
 
-            # Add text and timestamp
+            # Add development mode indicator
+            font_size = 36
+            text = "Development Mode"
+            draw.text(
+                (self.width//2 - 100, self.height//2 - font_size//2),
+                text,
+                fill='white',
+                stroke_width=2,
+                stroke_fill='black'
+            )
+
+            # Add timestamp
             timestamp = time.strftime("%Y-%m-%d %H:%M:%S")
-            draw.text((self.width//2 - 100, self.height//2), 
-                     'Development Mode', fill='white')
-            draw.text((10, self.height - 30), 
-                     timestamp, fill='white')
+            draw.text(
+                (10, self.height - 30),
+                timestamp,
+                fill='white',
+                stroke_width=1,
+                stroke_fill='black'
+            )
+
+            # Apply brightness and contrast
+            brightness = self.settings['brightness'] / 50.0  # Convert to float 0-2
+            contrast = self.settings['contrast'] / 50.0  # Convert to float 0-2
+
+            # Apply image enhancements
+            if brightness != 1.0:
+                img = Image.eval(img, lambda x: min(255, max(0, int(x * brightness))))
+            if contrast != 1.0:
+                img = Image.eval(img, lambda x: min(255, max(0, int(128 + (x-128) * contrast))))
 
             # Apply rotation if needed
             if self.settings['rotation'] != 0:
                 logger.info(f"Rotating image by {self.settings['rotation']} degrees")
-                img = img.rotate(self.settings['rotation'])
+                img = img.rotate(self.settings['rotation'], expand=True)
 
-            img.save(filename)
-            logger.info(f"Mock camera: captured image saved to {filename}")
+            img.save(filename, quality=95)
+            logger.info(f"Mock camera: captured test pattern saved to {filename}")
             return True
         except Exception as e:
             logger.error(f"Mock camera: error capturing image: {e}")
