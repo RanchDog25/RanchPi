@@ -72,6 +72,31 @@
             justify-content: center;
             overflow: hidden;
         }
+    .gallery {
+        margin: 20px 0;
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+    .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 15px;
+        margin-top: 15px;
+    }
+    .gallery-item {
+        border: 1px solid #ccc;
+        padding: 10px;
+        text-align: center;
+    }
+    .gallery-item img {
+        max-width: 100%;
+        height: auto;
+    }
+    .gallery-item p {
+        margin: 5px 0;
+        font-size: 12px;
+    }
     </style>
 </head>
 <body>
@@ -114,6 +139,13 @@
 
     <div class="image-container">
         <img id="camera-feed" src="" alt="No image captured yet" class="rotate-0" />
+    </div>
+    
+    <div class="gallery">
+        <h3>Captured Images</h3>
+        <div id="gallery-grid" class="gallery-grid">
+            <!-- Images will be loaded here -->
+        </div>
     </div>
 
     <script>
@@ -249,6 +281,39 @@
 
         // Add schedule status check to the regular status updates
         setInterval(checkScheduleStatus, 5000);
+
+        function loadGallery() {
+            fetch('/images')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'ok') {
+                        const gallery = document.getElementById('gallery-grid');
+                        gallery.innerHTML = '';
+
+                        Object.entries(data.data).forEach(([path, metadata]) => {
+                            const div = document.createElement('div');
+                            div.className = 'gallery-item';
+
+                            const img = document.createElement('img');
+                            img.src = path.replace('storage/images/', '/images/');
+                            img.alt = 'Captured image';
+
+                            const info = document.createElement('p');
+                            const date = new Date(metadata.timestamp);
+                            info.textContent = `${metadata.type} - ${date.toLocaleString()}`;
+
+                            div.appendChild(img);
+                            div.appendChild(info);
+                            gallery.appendChild(div);
+                        });
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        // Add gallery refresh to the status update interval
+        setInterval(loadGallery, 5000);
+        loadGallery(); // Initial load
     </script>
 </body>
 </html>

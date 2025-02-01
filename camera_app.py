@@ -12,6 +12,8 @@ import numpy as np
 from datetime import datetime
 import threading
 import schedule
+import shutil
+import json
 
 # Configure logging with more detail
 logging.basicConfig(
@@ -38,6 +40,51 @@ CORS(app, resources={
 app.debug = False
 
 # Global variables section
+STORAGE_ROOT = Path("storage")
+IMAGES_ROOT = STORAGE_ROOT / "images"
+METADATA_FILE = STORAGE_ROOT / "image_metadata.json"
+
+# Create necessary directories
+STORAGE_ROOT.mkdir(exist_ok=True)
+IMAGES_ROOT.mkdir(exist_ok=True)
+
+def save_metadata(metadata):
+    """Save image metadata to JSON file"""
+    with open(METADATA_FILE, 'w') as f:
+        json.dump(metadata, f, indent=2)
+
+def load_metadata():
+    """Load image metadata from JSON file"""
+    if METADATA_FILE.exists():
+        with open(METADATA_FILE, 'r') as f:
+            return json.load(f)
+    return {}
+
+def organize_image(source_path, is_scheduled=False):
+    """Organize captured image into storage structure"""
+    timestamp = datetime.now()
+    year_month = timestamp.strftime('%Y_%m')
+    target_dir = IMAGES_ROOT / year_month
+    target_dir.mkdir(exist_ok=True)
+
+    # Generate unique filename
+    filename = f"{'scheduled' if is_scheduled else 'capture'}_{timestamp.strftime('%Y%m%d_%H%M%S')}.jpg"
+    target_path = target_dir / filename
+
+    # Move file to storage
+    shutil.copy2(source_path, target_path)
+
+    # Update metadata
+    metadata = load_metadata()
+    metadata[str(target_path)] = {
+        'timestamp': timestamp.isoformat(),
+        'type': 'scheduled' if is_scheduled else 'manual',
+        'size': target_path.stat().st_size
+    }
+    save_metadata(metadata)
+
+    return target_path
+
 UPLOAD_FOLDER = Path("static/images")
 UPLOAD_FOLDER.mkdir(parents=True, exist_ok=True)
 
@@ -98,11 +145,12 @@ class MockCamera:
 
     def capture_scheduled_image(self):
         """Capture image on schedule"""
-        timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
-        filename = f"scheduled_{timestamp}.jpg"
-        filepath = UPLOAD_FOLDER / filename
-        self.capture_file(str(filepath))
-        logger.info(f"Scheduled capture saved to {filepath}")
+        temp_path = UPLOAD_FOLDER / f"temp_scheduled_{time.time()}.jpg"
+        self.capture_file(str(temp_path))
+        final_path = organize_image(temp_path, is_scheduled=True)
+        temp_path.unlink()
+        logger.info(f"Scheduled capture saved to {final_path}")
+
 
     def start(self):
         self.is_running = True
@@ -313,14 +361,18 @@ def capture_image():
         return jsonify({'status': 'error', 'message': 'Camera not initialized'}), 500
 
     try:
-        timestamp = time.strftime("%Y%m%d-%H%M%S")
-        filename = f"latest_{timestamp}.jpg"
-        filepath = UPLOAD_FOLDER / filename
+        # Capture to temporary location first
+        temp_path = UPLOAD_FOLDER / f"temp_{time.time()}.jpg"
+        camera.capture_file(str(temp_path))
 
-        camera.capture_file(str(filepath))
-        logger.info(f"Image captured successfully: {filepath}")
+        # Organize the image
+        final_path = organize_image(temp_path)
 
-        return send_file(str(filepath), mimetype='image/jpeg')
+        # Clean up temp file
+        temp_path.unlink()
+
+        logger.info(f"Image captured and stored at: {final_path}")
+        return send_file(str(final_path), mimetype='image/jpeg')
     except Exception as e:
         logger.error(f"Error capturing image: {e}")
         return jsonify({'status': 'error', 'message': str(e)}), 500
@@ -425,6 +477,15 @@ def get_schedule_status():
             'interval': CAPTURE_SETTINGS['interval'],
             'is_scheduled': CAPTURE_SETTINGS['is_scheduled']
         }
+    })
+
+@app.route('/images')
+def list_images():
+    """List all captured images with metadata"""
+    metadata = load_metadata()
+    return jsonify({
+        'status': 'ok',
+        'data': metadata
     })
 
 
