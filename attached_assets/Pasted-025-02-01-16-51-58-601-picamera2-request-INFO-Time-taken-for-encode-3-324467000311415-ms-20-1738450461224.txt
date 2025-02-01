@@ -1,0 +1,99 @@
+025-02-01 16:51:58,601 - picamera2.request - INFO - Time taken for encode: 3.324467000311415 ms.
+2025-02-01 16:51:58,601 - __main__ - INFO - Successfully captured image to static/images/latest_20250201-165158.jpg
+2025-02-01 16:51:58,601 - __main__ - INFO - Image captured successfully
+2025-02-01 16:51:58,602 - werkzeug - INFO - 192.168.1.143 - - [01/Feb/2025 16:51:58] "GET /capture?1738450318792 HTTP/1.1" 200 -
+2025-02-01 16:52:36,033 - __main__ - INFO - Accessing live feed page
+2025-02-01 16:52:36,034 - werkzeug - INFO - 192.168.1.143 - - [01/Feb/2025 16:52:36] "GET /live HTTP/1.1" 200 -
+2025-02-01 16:52:36,041 - __main__ - INFO - Attempting to capture image
+2025-02-01 16:52:36,045 - __main__ - INFO - Attempting to capture image
+2025-02-01 16:52:36,072 - picamera2.request - INFO - Saved <picamera2.request.Helpers object at 0x7fff721cb110> to file static/images/latest_20250201-165236.jpg.
+2025-02-01 16:52:36,072 - picamera2.request - INFO - Time taken for encode: 3.3037450002666446 ms.
+2025-02-01 16:52:36,072 - __main__ - INFO - Successfully captured image to static/images/latest_20250201-165236.jpg
+2025-02-01 16:52:36,073 - __main__ - INFO - Image captured successfully
+2025-02-01 16:52:36,073 - werkzeug - INFO - 192.168.1.143 - - [01/Feb/2025 16:52:36] "GET /capture HTTP/1.1" 200 -
+2025-02-01 16:52:36,120 - picamera2.request - INFO - Saved <picamera2.request.Helpers object at 0x7fff721cb110> to file static/images/latest_20250201-165236.jpg.
+2025-02-01 16:52:36,120 - picamera2.request - INFO - Time taken for encode: 3.3498379998491146 ms.
+2025-02-01 16:52:36,121 - __main__ - INFO - Successfully captured image to static/images/latest_20250201-165236.jpg
+2025-02-01 16:52:36,121 - __main__ - INFO - Image captured successfully
+2025-02-01 16:52:36,122 - werkzeug - INFO - 192.168.1.143 - - [01/Feb/2025 16:52:36] "GET /capture?1738450356283 HTTP/1.1" 200 -
+2025-02-01 16:52:37,047 - __main__ - INFO - Attempting to capture image
+2025-02-01 16:52:37,090 - picamera2.request - INFO - Saved <picamera2.request.Helpers object at 0x7fff721cb110> to file static/images/latest_20250201-165237.jpg.
+2025-02-01 16:52:37,090 - picamera2.request - INFO - Time taken for encode: 3.288856999915879 ms.
+2025-02-01 16:52:37,091 - __main__ - INFO - Successfully captured image to static/images/latest_20250201-165237.jpg
+2025-02-01 16:52:37,091 - __main__ - INFO - Image captured successfully
+2025-02-01 16:52:37,092 - werkzeug - INFO - 192.168.1.143 - - [01/Feb/2025 16:52:37] "GET /capture?1738450357284 HTTP/1.1" 200 -
+2025-02-01 16:52:37,573 - __main__ - ERROR - Error rotating camera: 'Picamera2' object has no attribute 'get_status'
+2025-02-01 16:52:37,573 - werkzeug - INFO - 192.168.1.143 - - [01/Feb/2025 16:52:37] "POST /rotate HTTP/1.1" 500 -
+2025-02-01 16:52:38,051 - __main__ - INFO - Attempting to capture image
+2025-02-01 16:52:38,057 - picamera2.request - INFO - Saved <picamera2.request.Helpers object at 0x7fff721cb110> to file static/images/latest_20250201-165238.jpg.
+2025-02-01 16:52:38,057 - picamera2.request - INFO - Time taken for encode: 3.317892999803007 ms.
+2025-02-01 16:52:38,057 - __main__ - INFO - Successfully captured image to static/images/latest_20250201-165238.jpg
+2025-02-01 16:52:38,057 - __main__ - INFO - Image captured successfully
+2025-02-01 16:52:38,058 - werkzeug - INFO - 192.168.1.143 - - [01/Feb/2025 16:52:38] "GET /capture?1738450358288 HTTP/1.1" 200 -
+2025-02-01 16:52:38,265 - __main__ - ERROR - Error rotating camera: 'Picamera2' object has no attribute 'get_status'
+2025-02-01 16:52:38,265 - werkzeug - INFO - 192.168.1.143 - - [01/Feb/2025 16:52:38] "POST /rotate HTTP/1.1" 500 -
+2025-02-01 16:52:39,040 - __main__ - INFO - Accessing main page
+2025-02-01 16:52:39,041 - werkzeug - INFO - 192.168.1.143 - - [01/Feb/2025 16:52:39] "GET / HTTP/1.1" 200 -
+2025-02-01 16:52:39,045 - __main__ - INFO - Attempting to capture image
+2025-02-01 16:52:39,048 - __main__ - ERROR - Error getting status: 'Picamera2' object has no attribute 'get_status'
+2025-02-01 16:52:39,049 - werkzeug - INFO - 192.168.1.143 - - [01/Feb/2025 16:52:39] "GET /status HTTP/1.1" 500 -
+2025-02-01 16:52:39,073 - picamera2.request - INFO - Saved <picamera2.request.Helpers object at 0x7fff721cb110> to file static/images/latest_20250201-165239.jpg.
+2025-02-01 16:52:39,074 - picamera2.request - INFO - Time taken for encode: 3.3093929996539373 ms.
+2025-02-01 16:52:39,074 - __main__ - INFO - Successfully captured image to static/images/latest_20250201-165239.jpg
+2025-02-01 16:52:39,074 - __main__ - INFO - Image captured successfully
+2025-02-01 16:52:39,075 - werkzeug - INFO - 192.168.1.143 - - [01/Feb/2025 16:52:39] "GET /capture?1738450359283 HTTP/1.1" 200 -
+2025-02-01 16:52:40,355 - __main__ - INFO - Attempting to capture image
+2025-02-01 16:52:40,380 - picamera2.request - INFO - Saved <picamera2.request.Helpers object at 0x7fff721cb110> to file static/images/latest_20250201-165240.jpg.
+2025-02-01 16:52:40,380 - picamera2.request - INFO - Time taken for encode: 3.326301000015519 ms.
+2025-02-01 16:52:40,381 - __main__ - INFO - Successfully captured image to static/images/latest_20250201-165240.jpg
+2025-02-01 16:52:40,381 - __main__ - INFO - Image captured successfully
+2025-02-01 16:52:40,382 - werkzeug - INFO - 192.168.1.143 - - [01/Feb/2025 16:52:40] "GET /capture HTTP/1.1" 200 -
+2025-02-01 16:52:41,559 - __main__ - ERROR - Error rotating camera: 'Picamera2' object has no attribute 'get_status'
+2025-02-01 16:52:41,560 - werkzeug - INFO - 192.168.1.143 - - [01/Feb/2025 16:52:41] "POST /rotate HTTP/1.1" 500 -
+2025-02-01 16:52:42,184 - __main__ - ERROR - Error rotating camera: 'Picamera2' object has no attribute 'get_status'
+2025-02-01 16:52:42,185 - werkzeug - INFO - 192.168.1.143 - - [01/Feb/2025 16:52:42] "POST /rotate HTTP/1.1" 500 -
+2025-02-01 16:52:44,057 - __main__ - ERROR - Error getting status: 'Picamera2' object has no attribute 'get_status'
+2025-02-01 16:52:44,057 - werkzeug - INFO - 192.168.1.143 - - [01/Feb/2025 16:52:44] "GET /status HTTP/1.1" 500 -
+2025-02-01 16:52:49,311 - __main__ - ERROR - Error getting status: 'Picamera2' object has no attribute 'get_status'
+2025-02-01 16:52:49,312 - werkzeug - INFO - 192.168.1.143 - - [01/Feb/2025 16:52:49] "GET /status HTTP/1.1" 500 -
+2025-02-01 16:52:54,305 - __main__ - ERROR - Error getting status: 'Picamera2' object has no attribute 'get_status'
+2025-02-01 16:52:54,306 - werkzeug - INFO - 192.168.1.143 - - [01/Feb/2025 16:52:54] "GET /status HTTP/1.1" 500 -
+2025-02-01 16:52:59,301 - __main__ - ERROR - Error getting status: 'Picamera2' object has no attribute 'get_status'
+2025-02-01 16:52:59,301 - werkzeug - INFO - 192.168.1.143 - - [01/Feb/2025 16:52:59] "GET /status HTTP/1.1" 500 -
+2025-02-01 16:53:04,052 - __main__ - ERROR - Error getting status: 'Picamera2' object has no attribute 'get_status'
+2025-02-01 16:53:04,053 - werkzeug - INFO - 192.168.1.143 - - [01/Feb/2025 16:53:04] "GET /status HTTP/1.1" 500 -
+2025-02-01 16:53:09,311 - __main__ - ERROR - Error getting status: 'Picamera2' object has no attribute 'get_status'
+2025-02-01 16:53:09,312 - werkzeug - INFO - 192.168.1.143 - - [01/Feb/2025 16:53:09] "GET /status HTTP/1.1" 500 -
+2025-02-01 16:53:14,305 - __main__ - ERROR - Error getting status: 'Picamera2' object has no attribute 'get_status'
+2025-02-01 16:53:14,306 - werkzeug - INFO - 192.168.1.143 - - [01/Feb/2025 16:53:14] "GET /status HTTP/1.1" 500 -
+2025-02-01 16:53:19,307 - __main__ - ERROR - Error getting status: 'Picamera2' object has no attribute 'get_status'
+2025-02-01 16:53:19,307 - werkzeug - INFO - 192.168.1.143 - - [01/Feb/2025 16:53:19] "GET /status HTTP/1.1" 500 -
+2025-02-01 16:53:24,304 - __main__ - ERROR - Error getting status: 'Picamera2' object has no attribute 'get_status'
+2025-02-01 16:53:24,305 - werkzeug - INFO - 192.168.1.143 - - [01/Feb/2025 16:53:24] "GET /status HTTP/1.1" 500 -
+2025-02-01 16:53:29,297 - __main__ - ERROR - Error getting status: 'Picamera2' object has no attribute 'get_status'
+2025-02-01 16:53:29,297 - werkzeug - INFO - 192.168.1.143 - - [01/Feb/2025 16:53:29] "GET /status HTTP/1.1" 500 -
+2025-02-01 16:53:34,300 - __main__ - ERROR - Error getting status: 'Picamera2' object has no attribute 'get_status'
+2025-02-01 16:53:34,300 - werkzeug - INFO - 192.168.1.143 - - [01/Feb/2025 16:53:34] "GET /status HTTP/1.1" 500 -
+2025-02-01 16:53:39,297 - __main__ - ERROR - Error getting status: 'Picamera2' object has no attribute 'get_status'
+2025-02-01 16:53:39,297 - werkzeug - INFO - 192.168.1.143 - - [01/Feb/2025 16:53:39] "GET /status HTTP/1.1" 500 -
+2025-02-01 16:53:44,057 - __main__ - ERROR - Error getting status: 'Picamera2' object has no attribute 'get_status'
+2025-02-01 16:53:44,057 - werkzeug - INFO - 192.168.1.143 - - [01/Feb/2025 16:53:44] "GET /status HTTP/1.1" 500 -
+2025-02-01 16:53:48,035 - __main__ - INFO - Attempting to capture image
+2025-02-01 16:53:48,061 - picamera2.request - INFO - Saved <picamera2.request.Helpers object at 0x7fff721cb110> to file static/images/latest_20250201-165348.jpg.
+2025-02-01 16:53:48,061 - picamera2.request - INFO - Time taken for encode: 3.3517090000714234 ms.
+2025-02-01 16:53:48,061 - __main__ - INFO - Successfully captured image to static/images/latest_20250201-165348.jpg
+2025-02-01 16:53:48,061 - __main__ - INFO - Image captured successfully
+2025-02-01 16:53:48,062 - werkzeug - INFO - 192.168.1.143 - - [01/Feb/2025 16:53:48] "GET /capture HTTP/1.1" 200 -
+2025-02-01 16:53:49,052 - __main__ - ERROR - Error getting status: 'Picamera2' object has no attribute 'get_status'
+2025-02-01 16:53:49,053 - werkzeug - INFO - 192.168.1.143 - - [01/Feb/2025 16:53:49] "GET /status HTTP/1.1" 500 -
+2025-02-01 16:53:53,073 - __main__ - INFO - Attempting to capture image
+2025-02-01 16:53:53,099 - picamera2.request - INFO - Saved <picamera2.request.Helpers object at 0x7fff721cb110> to file static/images/latest_20250201-165353.jpg.
+2025-02-01 16:53:53,099 - picamera2.request - INFO - Time taken for encode: 7.152338000196323 ms.
+2025-02-01 16:53:53,100 - __main__ - INFO - Successfully captured image to static/images/latest_20250201-165353.jpg
+2025-02-01 16:53:53,100 - __main__ - INFO - Image captured successfully
+2025-02-01 16:53:53,101 - werkzeug - INFO - 192.168.1.143 - - [01/Feb/2025 16:53:53] "GET /capture HTTP/1.1" 200 -
+2025-02-01 16:53:54,048 - __main__ - ERROR - Error getting status: 'Picamera2' object has no attribute 'get_status'
+2025-02-01 16:53:54,049 - werkzeug - INFO - 192.168.1.143 - - [01/Feb/2025 16:53:54] "GET /status HTTP/1.1" 500 -
+2025-02-01 16:53:59,050 - __main__ - ERROR - Error getting status: 'Picamera2' object has no attribute 'get_status'
+2025-02-01 16:53:59,051 - werkzeug - INFO - 192.168.1.143 - - [01/Feb/2025 16:53:59] "GET /status HTTP/1.1" 500 -
+2025-02-01 16:54:04,052 - __main__ - ERROR - Error getting status: 'Picamera2' object has no attribute 'get_sta

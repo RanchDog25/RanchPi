@@ -8,6 +8,7 @@ from PIL import Image, ImageDraw
 from flask import Flask, render_template, send_file, jsonify, request
 from flask_cors import CORS
 from werkzeug.serving import is_running_from_reloader
+import numpy as np
 
 # Configure logging with more detail
 logging.basicConfig(
@@ -59,9 +60,21 @@ class MockCamera:
 
     def capture_file(self, filename):
         try:
-            # Create a test image
-            img = Image.new('RGB', (self.width, self.height), color='gray')
+            # Create a more interesting test pattern
+            gradient = np.linspace(0, 255, self.width, dtype=np.uint8)
+            pattern = np.tile(gradient, (self.height, 1))
+            img = Image.fromarray(pattern).convert('RGB')
+
+            # Add color bands
             draw = ImageDraw.Draw(img)
+            colors = ['red', 'green', 'blue']
+            band_height = self.height // len(colors)
+            for i, color in enumerate(colors):
+                draw.rectangle(
+                    [0, i * band_height, self.width, (i + 1) * band_height],
+                    fill=color,
+                    outline=None
+                )
 
             # Add text and timestamp
             timestamp = time.strftime("%Y-%m-%d %H:%M:%S")
@@ -102,10 +115,56 @@ class MockCamera:
             logger.error(f"Error updating settings: {e}")
             raise
 
+class PiCamera2Wrapper:
+    """Wrapper for PiCamera2 to handle rotation consistently"""
+    def __init__(self, camera):
+        self.camera = camera
+        self.settings = CAMERA_SETTINGS.copy()
+        self.is_running = True
+
+    def capture_file(self, filename):
+        # Apply rotation using EXIF orientation
+        current_rotation = self.settings.get('rotation', 0)
+        if current_rotation != 0:
+            try:
+                # Capture to memory first
+                stream = io.BytesIO()
+                self.camera.capture_file(stream, format='jpeg')
+                stream.seek(0)
+
+                # Open with PIL and rotate
+                with Image.open(stream) as img:
+                    rotated = img.rotate(current_rotation, expand=True)
+                    rotated.save(filename, 'JPEG', quality=85)
+                logger.info(f"Captured and rotated image saved to {filename}")
+            except Exception as e:
+                logger.error(f"Error rotating image: {e}")
+                # Fallback to direct capture if rotation fails
+                self.camera.capture_file(filename)
+        else:
+            self.camera.capture_file(filename)
+
+    def get_status(self):
+        return {
+            'running': self.is_running,
+            'settings': self.settings
+        }
+
+    def update_settings(self, new_settings):
+        try:
+            for key, value in new_settings.items():
+                if key in self.settings:
+                    self.settings[key] = value
+                    if key == 'rotation':
+                        self.settings['rotation'] = value % 360
+                        logger.info(f"Updated PiCamera rotation to {self.settings['rotation']} degrees")
+            return self.settings
+        except Exception as e:
+            logger.error(f"Error updating PiCamera settings: {e}")
+            raise
+
 def initialize_camera():
     """Initialize and configure the camera based on environment"""
-    global camera
-
     try:
         machine = platform.machine()
         logger.info(f"Detected platform machine: {machine}")
@@ -121,31 +180,35 @@ def initialize_camera():
                 logger.info("Successfully imported picamera2")
 
                 # Create Picamera2 instance
-                camera = Picamera2()
+                picam = Picamera2()
                 logger.info("Created Picamera2 instance")
 
+                # Get available cameras
+                cameras = picam.global_camera_info()
+                logger.info(f"Available cameras: {cameras}")
+
                 # Create camera configuration
-                camera_config = camera.create_still_configuration(
+                camera_config = picam.create_still_configuration(
                     main={"size": (640, 480)},
                     lores={"size": (320, 240)},
                     display="lores"
                 )
                 logger.info(f"Created camera configuration: {camera_config}")
 
-                camera.configure(camera_config)
+                picam.configure(camera_config)
                 logger.info("Applied camera configuration")
 
-                camera.start()
+                picam.start()
                 logger.info("Started camera")
 
-                time.sleep(2)  # Give camera time to initialize
-
                 # Test capture
-                camera.capture_file("test.jpg")
+                picam.capture_file("test.jpg")
                 logger.info("Successfully performed test capture")
                 os.remove("test.jpg")  # Clean up test file
 
-                return camera
+                # Return wrapped PiCamera2
+                return PiCamera2Wrapper(picam)
+
             except Exception as e:
                 logger.error(f"Error initializing Raspberry Pi camera: {e}")
                 logger.info("Falling back to mock camera")
