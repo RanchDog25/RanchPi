@@ -55,7 +55,7 @@ class MockCamera:
         self.width = 640
         self.height = 480
         self.settings = CAMERA_SETTINGS.copy()
-        self.is_running = False
+        self.is_running = True  # Changed to True by default
         logger.info("Mock camera initialized with settings: %s", self.settings)
 
     def start(self):
@@ -65,6 +65,13 @@ class MockCamera:
     def stop(self):
         self.is_running = False
         logger.info("Mock camera stopped")
+
+    def get_status(self):
+        """Added missing get_status method"""
+        return {
+            'running': self.is_running,
+            'settings': self.settings
+        }
 
     def capture_file(self, filename):
         try:
@@ -102,12 +109,6 @@ class MockCamera:
         except Exception as e:
             logger.error(f"Mock camera: error capturing image: {e}")
             return False
-
-    def get_status(self):
-        return {
-            'running': self.is_running,
-            'settings': self.settings
-        }
 
     def update_settings(self, new_settings):
         try:
