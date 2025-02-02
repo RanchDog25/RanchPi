@@ -1,62 +1,127 @@
 # Raspberry Pi Python Development Environment
 This repository contains a Python development environment setup for Raspberry Pi with GitHub integration.
 
-## Latest Update (February 1, 2025)
-- Configured development environment with Replit integration
-- Set up secure HTTPS connection for Replit→GitHub workflow
-- Established SSH-based workflow for Raspberry Pi
-- Added external access configuration
+## Latest Update (February 2, 2025)
+- Added WebSocket streaming support
+- Implemented development workflow between Pi and Replit
+- Enhanced camera rotation handling
+- Added network management capabilities
 
-## Trail Camera Architecture (Future Implementation)
+## Development Workflow
 
-For deploying this system as a trail camera, the following architecture is recommended:
+### Working on Raspberry Pi
 
-### Hardware Requirements
-- Raspberry Pi with Camera
-- 4G/LTE USB Modem
-- Solar Panel + Battery Pack
-- Weatherproof Enclosure
-- IR LED Array for Night Vision
-- Temperature/Humidity Sensors
+1. Before making changes, pull the latest code:
+```bash
+git pull origin main
+```
 
-### Network Architecture
-1. **Image Capture Layer** (On Pi):
-   - Motion detection using PiCamera2
-   - Local image storage buffer
-   - Power management system
-   - Cellular connection management
+2. After making changes on your Pi:
+```bash
+# Stage your changes
+git add .
 
-2. **Cloud Layer**:
-   - S3 Bucket for image storage
-   - Lambda functions for image processing
-   - API Gateway for secure access
-   - Web interface hosted on cloud
+# Commit with a descriptive message
+git commit -m "Description of your changes"
 
-3. **Access Layer**:
-   - Web interface for viewing images
-   - Mobile app support
-   - Admin dashboard for camera management
+# Push to GitHub
+git push origin main
+```
 
-### Data Flow
-1. Motion triggers camera
-2. Image captured and stored locally
-3. Uploaded to cloud when connection available
-4. Processed and stored in S3
-5. Available via web interface
+3. Your changes are now on GitHub. Replit needs to be synced separately.
 
-## External Access Setup
+### Working on Replit
 
-To access your RanchPi camera from outside your local network:
+1. After changes are pushed from Pi to GitHub:
+```bash
+# Use the provided utility to pull changes
+python3 git_utils.py pull
+```
 
-1. **Configure Port Forwarding**:
-   - Access your router's admin panel (typically http://192.168.1.1)
-   - Navigate to Port Forwarding settings
-   - Add a new rule:
-     * Internal IP: 192.168.1.135 (your Raspberry Pi's IP)
-     * Internal Port: 5000
-     * External Port: 80 (or your preferred port)
-     * Protocol: TCP
+2. If you make changes on Replit:
+```bash
+# Use the provided utility to push changes
+python3 git_utils.py push "Description of your changes"
+```
 
-2. **Set Up Dynamic DNS (Optional but recommended)**:
-   - Sign up for a free Dynamic DNS service (e.g., No-IP, DuckDNS)
-   - Install the DDNS client on your Raspberry Pi:
+3. Then on your Pi:
+```bash
+git pull origin main
+```
+
+### Handling Merge Conflicts
+
+If you encounter merge conflicts:
+
+1. Create a backup of your changes:
+```bash
+# Create a backup branch
+git checkout -b backup_branch
+
+# Save your changes
+git add .
+git commit -m "Backup of local changes"
+
+# Return to main branch
+git checkout main
+```
+
+2. Get the latest changes:
+```bash
+# Clean untracked files if needed
+git clean -f
+
+# Pull latest changes
+git pull origin main
+```
+
+3. Restore your changes if needed:
+```bash
+# Cherry-pick your changes
+git cherry-pick backup_branch
+```
+
+### Best Practices
+
+1. Always pull before making changes
+2. Commit and push changes frequently
+3. Keep Pi and Replit in sync through GitHub
+4. Use descriptive commit messages
+5. Check the workflow status after syncing
+6. Create backup branches when resolving conflicts
+
+### Current Features
+
+- Live camera streaming via WebSocket
+- Network resilience with automatic failover
+- Scheduled image capture
+- Image rotation and basic settings
+- Image gallery with metadata
+- Development/Production environment detection
+
+### Required Packages
+
+On your Raspberry Pi:
+```bash
+pip3 install websockets schedule flask-cors pillow
+sudo apt install -y python3-picamera2 python3-libcamera
+```
+
+On Replit:
+- All dependencies are automatically managed
+
+### Running the Application
+
+1. On Raspberry Pi:
+```bash
+python3 camera_app.py
+```
+
+2. On Replit:
+- The application runs automatically in the "Camera Server" workflow
+
+The system will:
+- Auto-detect available networks
+- Start WebSocket server for streaming
+- Initialize camera interface
+- Begin serving web interface
